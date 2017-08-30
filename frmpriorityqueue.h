@@ -1,8 +1,11 @@
 #ifndef FRMPRIORITYQUEUE_H
 #define FRMPRIORITYQUEUE_H
 
+#include "heap.h"
 #include <QWidget>
 #include <QGraphicsScene>
+
+using namespace  collections;
 
 namespace Ui {
 class frmPriorityQueue;
@@ -12,34 +15,43 @@ class frmPriorityQueue;
 /**
  * @brief The PQItem class has the metadata of each Node element into the binary tree which is required to build the tree.
  */
-struct TreeNode
+class TreeNode : HeapItem
 {
-    int childsCount = 0;
+
+public:
+
+    int X=0;
+    int Y=0;
     int CanvasX=0;
     int CanvasY=0;
-    int CentralX=0;
-    int CentralY=0;
-    int PointYPos=0;
-    int PointYMin=0;
+    int NorhtY=0;
+    int SouthY=0;
     int Widht=0;
     int Heigt=0;
+    bool isLeftNode=true;
+    QGraphicsLineItem* edgeToParent=nullptr;
+
+    void changePositon(int x, int y){setPosition(x,y,Widht,Heigt);}
 
     void setPosition(int x, int y, int w, int h)
     {
         int aux = 0;
-        CanvasX = x;
-        CanvasY = y;
+        X = x;
+        Y = y;
 
         Widht=w;
         Heigt=h;
 
         aux = w/2;
-        if( x >= 0 ) CentralX = x + aux;
-        else CentralX = x - aux;
+        CanvasX = ( x >= 0 )? (x + aux): (x - aux);
 
         aux = h/2;
-        if( y >= 0 ) CentralY = y + aux;
-        else CentralY = y - aux;
+        CanvasY = ( y >= 0 )? (y + aux) : (y - aux);
+        NorhtY = y + aux;
+        SouthY = y - aux;
+
+        isLeftNode = ((getHeapPosition()%2) == 0)? true : false;
+
     }
 };
 

@@ -18,9 +18,14 @@ namespace collections {
 class HeapItem
 {
     long _key;
+    int _heapPosition=-1;
+
    public:
     long getKey(){return _key;}
     void setKey(long k){_key=k;}
+    void setHeapPosition(int i){_heapPosition=i;}
+    int getHeapPosition(){return _heapPosition;}
+    int getParent(){return (int)_heapPosition/2;}
 };
 
 /**
