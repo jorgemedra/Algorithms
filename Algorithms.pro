@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     frmdocumentation.cpp \
     frmstablematching.cpp \
     frmpriorityqueue.cpp \
-    heap.cpp
+    heap.cpp \
+    binarytreebalanced.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
     frmdocumentation.h \
     frmstablematching.h \
     frmpriorityqueue.h \
-    heap.h
+    heap.h \
+    binarytreebalanced.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \

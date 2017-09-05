@@ -21,7 +21,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="txtKeyValue">
            <property name="maximumSize">
             <size>
              <width>150</width>
@@ -34,7 +34,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="cmdAddItem">
            <property name="text">
             <string>Add Value</string>
            </property>

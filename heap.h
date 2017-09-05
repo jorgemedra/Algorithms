@@ -17,10 +17,13 @@ namespace collections {
  */
 class HeapItem
 {
-    long _key;
+    long _key=0;
     int _heapPosition=-1;
 
-   public:
+public:
+
+    HeapItem(){}
+    HeapItem(long k){_key=k;}
     long getKey(){return _key;}
     void setKey(long k){_key=k;}
     void setHeapPosition(int i){_heapPosition=i;}
@@ -35,21 +38,28 @@ class Heap
 {
     HeapItem* h_array[HEAP_MAX_SIZE];
     int lastItemPos;
+    int _levels;
+
+    void calculateLevels();
 
     void heapify_up(int position, stringstream& steps);
     void heapify_down(int position, stringstream& steps);
+
 
 
 public:
     Heap();
 
     int size();
-    HeapItem* getItem(int index);
+    int levels();
 
-    bool Enqueue(HeapItem* item, stringstream& steps);
-    HeapItem* Dequeue(stringstream& steps);
-    HeapItem* Dequeue(int position, stringstream& steps);
+    HeapItem* operator[](int index);
 
+    bool Insert(HeapItem* item, stringstream& steps);
+    HeapItem* FindMin(stringstream& steps);
+
+    HeapItem* ExtractMin(stringstream& steps);
+    HeapItem* Delete(int index, stringstream& steps);
 };
 
 

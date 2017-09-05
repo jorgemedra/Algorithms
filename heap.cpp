@@ -20,7 +20,24 @@ int Heap::size()
     return (lastItemPos + 1);
 }
 
-HeapItem* Heap::getItem(int index)
+int Heap::levels()
+{
+    return _levels;
+}
+
+void Heap::calculateLevels()
+{
+    int _size = lastItemPos + 1;
+    _levels = 0;
+
+    for(int i=1; i <= _size; i=i*2)
+    {
+        if(h_array[i-1]==nullptr) return;
+        else _levels++;
+    }
+}
+
+HeapItem* Heap::operator[](int index)
 {
     index--; //Index Array is base CERO.
     if(index < 0 || index >= HEAP_MAX_SIZE) return nullptr;
@@ -29,12 +46,12 @@ HeapItem* Heap::getItem(int index)
 }
 
 /**
- * @brief Heap::Enqueue a new item int the queue.
- * @param item Item to enqueue
+ * @brief Heap::Insert a new item int the queue and sort it.
+ * @param item Item to be inserted into the queue.
  * @param steps
  * @return
  */
-bool Heap::Enqueue(HeapItem* item, stringstream& steps)
+bool Heap::Insert(HeapItem* item, stringstream& steps)
 {
     if((lastItemPos + 1) >= HEAP_MAX_SIZE || item == nullptr)
     {
@@ -51,15 +68,33 @@ bool Heap::Enqueue(HeapItem* item, stringstream& steps)
     else
         steps << "It has been enqueued the first item." << endl;
 
+    calculateLevels();
     return true;
 }
 
 /**
+ * @brief Heap::FindMin
+ * @param steps
+ * @return
+ */
+HeapItem* Heap::FindMin(stringstream& steps)
+{
+    if(lastItemPos <0)
+    {
+        steps << "There is no items into Heap." << endl;
+        return nullptr;
+    }
+
+    return h_array[0];
+}
+
+
+/**
  *  Take out and return the firt item of the Heap, which has the lesser value.
  */
-HeapItem* Heap::Dequeue(stringstream& steps)
+HeapItem* Heap::ExtractMin(stringstream& steps)
 {
-    return Dequeue(1, steps);
+    return Delete(1, steps);
 }
 
 /**
@@ -68,7 +103,7 @@ HeapItem* Heap::Dequeue(stringstream& steps)
  * @param steps
  * @return
  */
-HeapItem* Heap::Dequeue(int position, stringstream& steps)
+HeapItem* Heap::Delete(int position, stringstream& steps)
 {
     HeapItem* item = nullptr;
     HeapItem* parent = nullptr;
@@ -87,12 +122,14 @@ HeapItem* Heap::Dequeue(int position, stringstream& steps)
     {
         lastItemPos--;
         steps << "It was removed the unique item. The Heap is empty." << endl;
+        calculateLevels();
         return item;
     }
     else if(lastItemPos == (position-1)) //The Item removed was the Last of array.
     {
         lastItemPos--;
         steps << "It was removed the last item." << endl;
+        calculateLevels();
         return item;
     }
 
@@ -118,6 +155,7 @@ HeapItem* Heap::Dequeue(int position, stringstream& steps)
             heapify_down(position,steps);
     }
 
+    calculateLevels();
     return item;
 }
 
