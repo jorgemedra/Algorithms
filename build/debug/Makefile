@@ -54,7 +54,8 @@ SOURCES       = ../../main.cpp \
 		../../frmdocumentation.cpp \
 		../../frmstablematching.cpp \
 		../../frmpriorityqueue.cpp \
-		../../heap.cpp moc_mainwindow.cpp \
+		../../heap.cpp \
+		../../binarytreebalanced.cpp moc_mainwindow.cpp \
 		moc_frmabout.cpp \
 		moc_frmdocumentation.cpp \
 		moc_frmstablematching.cpp \
@@ -66,6 +67,7 @@ OBJECTS       = main.o \
 		frmstablematching.o \
 		frmpriorityqueue.o \
 		heap.o \
+		binarytreebalanced.o \
 		moc_mainwindow.o \
 		moc_frmabout.o \
 		moc_frmdocumentation.o \
@@ -203,6 +205,7 @@ DIST          = /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_pre
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -230,13 +233,15 @@ DIST          = /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_pre
 		../../frmdocumentation.h \
 		../../frmstablematching.h \
 		../../frmpriorityqueue.h \
-		../../heap.h ../../main.cpp \
+		../../heap.h \
+		../../binarytreebalanced.h ../../main.cpp \
 		../../mainwindow.cpp \
 		../../frmabout.cpp \
 		../../frmdocumentation.cpp \
 		../../frmstablematching.cpp \
 		../../frmpriorityqueue.cpp \
-		../../heap.cpp
+		../../heap.cpp \
+		../../binarytreebalanced.cpp
 QMAKE_TARGET  = Algorithms
 DESTDIR       = 
 TARGET        = Algorithms.app/Contents/MacOS/Algorithms
@@ -381,6 +386,7 @@ Makefile: ../../Algorithms.pro /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/ma
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -540,6 +546,7 @@ Makefile: ../../Algorithms.pro /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/ma
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf:
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf:
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf:
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf:
 /Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf:
@@ -595,8 +602,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmdocumentation.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmdocumentation.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmdocumentation.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h ../../binarytreebalanced.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmdocumentation.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp ../../binarytreebalanced.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui ../../frmabout.ui ../../frmdocumentation.ui ../../frmperfectmatching.ui ../../frmpriorityqueue.ui $(DISTDIR)/
 
 
@@ -654,7 +661,13 @@ moc_frmstablematching.cpp: /Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/bin/moc
 	/Users/jorgemedra/Qt5.7.0/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/jorgemedra/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang -I/Users/jorgemedra/Documents/workspace/Algorithms -I/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -I'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)' -F/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib ../../frmstablematching.h -o moc_frmstablematching.cpp
 
-moc_frmpriorityqueue.cpp: /Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+moc_frmpriorityqueue.cpp: ../../heap.h \
+		../../binarytreebalanced.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSimpleTextItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
@@ -719,6 +732,12 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QTableWidget \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qtablewidget.h \
 		../../frmpriorityqueue.h \
+		../../heap.h \
+		../../binarytreebalanced.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSimpleTextItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
@@ -754,19 +773,36 @@ frmstablematching.o: ../../frmstablematching.cpp ../../frmstablematching.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o frmstablematching.o ../../frmstablematching.cpp
 
 frmpriorityqueue.o: ../../frmpriorityqueue.cpp ../../frmpriorityqueue.h \
+		../../heap.h \
+		../../binarytreebalanced.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSimpleTextItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
-		ui_frmpriorityqueue.h \
-		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
-		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
-		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
-		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h
+		ui_frmpriorityqueue.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o frmpriorityqueue.o ../../frmpriorityqueue.cpp
 
 heap.o: ../../heap.cpp ../../heap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o heap.o ../../heap.cpp
+
+binarytreebalanced.o: ../../binarytreebalanced.cpp /Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../binarytreebalanced.h \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSimpleTextItem \
+		/Users/jorgemedra/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		../../heap.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o binarytreebalanced.o ../../binarytreebalanced.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

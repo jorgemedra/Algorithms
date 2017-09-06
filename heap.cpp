@@ -53,20 +53,21 @@ HeapItem* Heap::operator[](int index)
  */
 bool Heap::Insert(HeapItem* item, stringstream& steps)
 {
+    steps << "HEAP::Insert" << endl;
     if((lastItemPos + 1) >= HEAP_MAX_SIZE || item == nullptr)
     {
-        steps << "Error: The queue is full or the item is NULL" << endl;
+        steps << "\tError: The queue is full or the item is NULL" << endl;
         return false;
     }
 
     lastItemPos++;
     h_array[lastItemPos] = item;
-    steps << "The Item was added int Pos:[" << (lastItemPos+1) << "]-Key: [" << item->getKey() << "] " << endl;
+    steps << "\tThe Item was added int Pos:[" << (lastItemPos+1) << "]-Key: [" << item->getKey() << "] " << endl;
 
     if(lastItemPos>0)
         heapify_up(lastItemPos + 1, steps); //Redorder heap. This function requeres a index base 1.
     else
-        steps << "It has been enqueued the first item." << endl;
+        steps << "\tIt has been inserted at the first position." << endl;
 
     calculateLevels();
     return true;
@@ -81,7 +82,7 @@ HeapItem* Heap::FindMin(stringstream& steps)
 {
     if(lastItemPos <0)
     {
-        steps << "There is no items into Heap." << endl;
+        steps << "HEAP::FindMin: There is no items into Heap." << endl;
         return nullptr;
     }
 
@@ -109,9 +110,11 @@ HeapItem* Heap::Delete(int position, stringstream& steps)
     HeapItem* parent = nullptr;
     HeapItem* itemSwaped = nullptr;
 
+    steps << "HEAP::DELETE[" << position << "]" << endl;
+
     if(position < 1 || position > HEAP_MAX_SIZE)
     {
-        steps << "Error: Index out of range." << endl;
+        steps << "\tError: Index out of range." << endl;
         return item;
     }
 
@@ -121,24 +124,25 @@ HeapItem* Heap::Delete(int position, stringstream& steps)
     if(lastItemPos == 0) //there was just one Item.
     {
         lastItemPos--;
-        steps << "It was removed the unique item. The Heap is empty." << endl;
+        steps << "\tIt was removed the unique item. The Heap is empty." << endl;
         calculateLevels();
         return item;
     }
     else if(lastItemPos == (position-1)) //The Item removed was the Last of array.
     {
         lastItemPos--;
-        steps << "It was removed the last item." << endl;
+        steps << "\tIt was removed the last item." << endl;
         calculateLevels();
         return item;
     }
-
 
     //Swap the las item to the removed item position and reduce the size of Heap.
     itemSwaped = h_array[lastItemPos];
     h_array[lastItemPos] = nullptr;
     h_array[position-1] = itemSwaped;
     lastItemPos--;
+
+    steps << "\tItem [" << position << "] delete and Swaped by Item [" << (lastItemPos+1) << "]." << endl;
 
     if(position == 1)   //The first element do a Heapify-Down
     {
@@ -170,7 +174,7 @@ void Heap::heapify_up(int position, stringstream& steps)
     HeapItem* parent=nullptr;
     HeapItem* child=nullptr;
 
-    steps << "Heapify-Up:" << endl;
+    steps << "HEAP::Heapify-Up:" << endl;
 
     if(position > 1) //The item is not the root.
     {
@@ -200,7 +204,7 @@ void Heap::heapify_down(int position, stringstream& steps)
 {
     HeapItem* root=nullptr;
 
-    steps << "Heapify-Down:" << endl;
+    steps << "HEAP::Heapify-Down:" << endl;
 
     int posParent = position;
     int left = 2 * position;

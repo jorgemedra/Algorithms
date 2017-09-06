@@ -38,6 +38,7 @@ class BinaryTreeBalanced
 public:
     BinaryTreeBalanced(Heap* h);
     void drawNode(int hPosition, QGraphicsScene* scene);
+    void deleteNode(TreeNode* item, QGraphicsScene* scene);
 
 };
 
