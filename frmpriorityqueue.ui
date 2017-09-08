@@ -38,6 +38,12 @@
            <property name="text">
             <string>Add Value</string>
            </property>
+           <property name="shortcut">
+            <string/>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -51,7 +57,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QTableWidget" name="tableWidget">
+          <widget class="QTableWidget" name="tblHeap">
            <property name="minimumSize">
             <size>
              <width>120</width>
@@ -67,7 +73,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="cmdDelete">
            <property name="maximumSize">
             <size>
              <width>150</width>
@@ -80,7 +86,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="cmdPurgeQueue">
            <property name="text">
             <string>Purge Queue</string>
            </property>
@@ -94,10 +100,17 @@
       </layout>
      </item>
      <item>
-      <widget class="QTextEdit" name="textEdit"/>
+      <widget class="QTextEdit" name="txtLog">
+       <property name="font">
+        <font>
+         <family>Courier</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="cmdClear">
        <property name="text">
         <string>Clear Logs</string>
        </property>

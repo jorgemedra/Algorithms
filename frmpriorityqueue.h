@@ -26,6 +26,10 @@ public:
 
 private slots:
     void on_cmdAddItem_clicked();
+    void on_tblHeap_clicked(const QModelIndex &index);
+    void on_cmdDelete_clicked();
+    void on_cmdClear_clicked();
+    void on_cmdPurgeQueue_clicked();
 
 private:
     Ui::frmPriorityQueue *ui;
@@ -34,8 +38,12 @@ private:
 
     Heap* heap;
     BinaryTreeBalanced* tree;
+    int itemSelected;
 
+    void drawTable();
     void drawTree();
+
+    void writeLog(string log);
 
 
 };

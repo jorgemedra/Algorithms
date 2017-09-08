@@ -33,15 +33,15 @@ public:
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout;
-    QLineEdit *lineEdit;
-    QPushButton *pushButton;
+    QLineEdit *txtKeyValue;
+    QPushButton *cmdAddItem;
     QLabel *label;
-    QTableWidget *tableWidget;
-    QPushButton *pushButton_4;
+    QTableWidget *tblHeap;
+    QPushButton *cmdDelete;
     QPushButton *pushButton_2;
     QGraphicsView *canvasViewe;
-    QTextEdit *textEdit;
-    QPushButton *pushButton_3;
+    QTextEdit *txtLog;
+    QPushButton *cmdClear;
 
     void setupUi(QWidget *frmPriorityQueue)
     {
@@ -56,16 +56,16 @@ public:
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        lineEdit = new QLineEdit(frmPriorityQueue);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setMaximumSize(QSize(150, 16777215));
+        txtKeyValue = new QLineEdit(frmPriorityQueue);
+        txtKeyValue->setObjectName(QStringLiteral("txtKeyValue"));
+        txtKeyValue->setMaximumSize(QSize(150, 16777215));
 
-        verticalLayout->addWidget(lineEdit);
+        verticalLayout->addWidget(txtKeyValue);
 
-        pushButton = new QPushButton(frmPriorityQueue);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        cmdAddItem = new QPushButton(frmPriorityQueue);
+        cmdAddItem->setObjectName(QStringLiteral("cmdAddItem"));
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(cmdAddItem);
 
         label = new QLabel(frmPriorityQueue);
         label->setObjectName(QStringLiteral("label"));
@@ -73,18 +73,18 @@ public:
 
         verticalLayout->addWidget(label);
 
-        tableWidget = new QTableWidget(frmPriorityQueue);
-        tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setMinimumSize(QSize(120, 0));
-        tableWidget->setMaximumSize(QSize(150, 16777215));
+        tblHeap = new QTableWidget(frmPriorityQueue);
+        tblHeap->setObjectName(QStringLiteral("tblHeap"));
+        tblHeap->setMinimumSize(QSize(120, 0));
+        tblHeap->setMaximumSize(QSize(150, 16777215));
 
-        verticalLayout->addWidget(tableWidget);
+        verticalLayout->addWidget(tblHeap);
 
-        pushButton_4 = new QPushButton(frmPriorityQueue);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setMaximumSize(QSize(150, 16777215));
+        cmdDelete = new QPushButton(frmPriorityQueue);
+        cmdDelete->setObjectName(QStringLiteral("cmdDelete"));
+        cmdDelete->setMaximumSize(QSize(150, 16777215));
 
-        verticalLayout->addWidget(pushButton_4);
+        verticalLayout->addWidget(cmdDelete);
 
         pushButton_2 = new QPushButton(frmPriorityQueue);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
@@ -102,15 +102,15 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_2);
 
-        textEdit = new QTextEdit(frmPriorityQueue);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
+        txtLog = new QTextEdit(frmPriorityQueue);
+        txtLog->setObjectName(QStringLiteral("txtLog"));
 
-        verticalLayout_2->addWidget(textEdit);
+        verticalLayout_2->addWidget(txtLog);
 
-        pushButton_3 = new QPushButton(frmPriorityQueue);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        cmdClear = new QPushButton(frmPriorityQueue);
+        cmdClear->setObjectName(QStringLiteral("cmdClear"));
 
-        verticalLayout_2->addWidget(pushButton_3);
+        verticalLayout_2->addWidget(cmdClear);
 
 
         verticalLayout_3->addLayout(verticalLayout_2);
@@ -124,12 +124,12 @@ public:
     void retranslateUi(QWidget *frmPriorityQueue)
     {
         frmPriorityQueue->setWindowTitle(QApplication::translate("frmPriorityQueue", "Form", 0));
-        lineEdit->setInputMask(QApplication::translate("frmPriorityQueue", "0000", 0));
-        pushButton->setText(QApplication::translate("frmPriorityQueue", "Add Value", 0));
+        txtKeyValue->setInputMask(QApplication::translate("frmPriorityQueue", "0000", 0));
+        cmdAddItem->setText(QApplication::translate("frmPriorityQueue", "Add Value", 0));
         label->setText(QApplication::translate("frmPriorityQueue", "Heap Array", 0));
-        pushButton_4->setText(QApplication::translate("frmPriorityQueue", "Delte Item Selected", 0));
+        cmdDelete->setText(QApplication::translate("frmPriorityQueue", "Delte Item Selected", 0));
         pushButton_2->setText(QApplication::translate("frmPriorityQueue", "Purge Queue", 0));
-        pushButton_3->setText(QApplication::translate("frmPriorityQueue", "Clear Logs", 0));
+        cmdClear->setText(QApplication::translate("frmPriorityQueue", "Clear Logs", 0));
     } // retranslateUi
 
 };

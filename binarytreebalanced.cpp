@@ -93,6 +93,12 @@ void BinaryTreeBalanced::drawNode(int hPosition, QGraphicsScene* scene)
         node->edge->setVisible(true);
     }
 
-    std::cout << "ITEM: " << hPosition << ": [x,y]=[" << node->X << ", " << node->Y << "] aLevel: " << aLevel << " dLevel: " << dLevel  << " Levels: " << heap->levels() << std::endl;
+    //std::cout << "ITEM: " << hPosition << ": [x,y]=[" << node->X << ", " << node->Y << "] aLevel: " << aLevel << " dLevel: " << dLevel  << " Levels: " << heap->levels() << std::endl;
 }
 
+void BinaryTreeBalanced::deleteNode(TreeNode* item, QGraphicsScene* scene)
+{
+    scene->removeItem(item->circle);
+    scene->removeItem(item->label);
+    scene->removeItem(item->edge);
+}
