@@ -36,7 +36,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionMain_Documentation_triggered()
 {
-    Help::openHelpWindow("https://guides.github.com/features/mastering-markdown/");
+    Help::openHelpWindow("https://github.com/jorgemedra/Algorithms/wiki");
 }
 
 void MainWindow::on_actionStable_Matching_triggered()
