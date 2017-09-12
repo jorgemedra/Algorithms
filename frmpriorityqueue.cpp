@@ -21,12 +21,6 @@ frmPriorityQueue::frmPriorityQueue(QWidget *parent) :
 
     itemSelected = 0;
     ui->cmdDelete->setEnabled(false);
-
-    //scene->addEllipse(0,0,10,10);
-    //scene->addEllipse(-20,20,2,2);
-    //scene->addEllipse(20,20,5,5);
-    //scene->setSceneRect(-2500,-2500,5000,5000);
-
 }
 
 frmPriorityQueue::~frmPriorityQueue()

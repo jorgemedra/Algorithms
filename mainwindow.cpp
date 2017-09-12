@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "help.h"
 #include "frmabout.h"
 #include "frmstablematching.h"
 #include "frmpriorityqueue.h"
@@ -11,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->mdiArea);
-
+    Help::setQMdiArea(ui->mdiArea);
 }
 
 MainWindow::~MainWindow()
@@ -35,7 +36,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionMain_Documentation_triggered()
 {
-
+    Help::openHelpWindow("https://guides.github.com/features/mastering-markdown/");
 }
 
 void MainWindow::on_actionStable_Matching_triggered()
@@ -43,7 +44,7 @@ void MainWindow::on_actionStable_Matching_triggered()
     frmStableMatching* pmthc = new frmStableMatching(this);
 
     ui->mdiArea->addSubWindow(pmthc);
-    pmthc->showNormal(); //setVisible(true);
+    pmthc->showMaximized();
 
 }
 
@@ -52,5 +53,5 @@ void MainWindow::on_actionPriority_Queue_triggered()
     frmPriorityQueue* prtQueue = new frmPriorityQueue(this);
 
     ui->mdiArea->addSubWindow(prtQueue);
-    prtQueue->showNormal();
+    prtQueue->showMaximized();
 }

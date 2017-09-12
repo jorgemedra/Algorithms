@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,22 +16,24 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     frmabout.cpp \
-    frmdocumentation.cpp \
     frmstablematching.cpp \
     frmpriorityqueue.cpp \
     heap.cpp \
-    binarytreebalanced.cpp
+    binarytreebalanced.cpp \
+    help.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
-    frmdocumentation.h \
     frmstablematching.h \
     frmpriorityqueue.h \
     heap.h \
-    binarytreebalanced.h
+    binarytreebalanced.h \
+    help.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \
-    frmdocumentation.ui \
     frmperfectmatching.ui \
     frmpriorityqueue.ui
+
+DISTFILES += \
+    Readme.md
