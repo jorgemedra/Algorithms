@@ -55,10 +55,18 @@ SOURCES       = ../../main.cpp \
 		../../frmpriorityqueue.cpp \
 		../../heap.cpp \
 		../../binarytreebalanced.cpp \
-		../../help.cpp moc_mainwindow.cpp \
+		../../help.cpp \
+		../../graphwidget.cpp \
+		../../frmgraphs.cpp \
+		../../gnode.cpp \
+		../../gedge.cpp \
+		../../tnode.cpp moc_mainwindow.cpp \
 		moc_frmabout.cpp \
 		moc_frmstablematching.cpp \
-		moc_frmpriorityqueue.cpp
+		moc_frmpriorityqueue.cpp \
+		moc_graphwidget.cpp \
+		moc_frmgraphs.cpp \
+		moc_gnode.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		frmabout.o \
@@ -67,11 +75,20 @@ OBJECTS       = main.o \
 		heap.o \
 		binarytreebalanced.o \
 		help.o \
+		graphwidget.o \
+		frmgraphs.o \
+		gnode.o \
+		gedge.o \
+		tnode.o \
 		moc_mainwindow.o \
 		moc_frmabout.o \
 		moc_frmstablematching.o \
-		moc_frmpriorityqueue.o
-DIST          = /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_pre.prf \
+		moc_frmpriorityqueue.o \
+		moc_graphwidget.o \
+		moc_frmgraphs.o \
+		moc_gnode.o
+DIST          = ../../Readme.md \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/qdevice.pri \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/device_config.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/common/unix.conf \
@@ -203,6 +220,7 @@ DIST          = /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/feature
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -230,14 +248,24 @@ DIST          = /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/feature
 		../../frmpriorityqueue.h \
 		../../heap.h \
 		../../binarytreebalanced.h \
-		../../help.h ../../main.cpp \
+		../../help.h \
+		../../graphwidget.h \
+		../../frmgraphs.h \
+		../../gnode.h \
+		../../gedge.h \
+		../../tnode.h ../../main.cpp \
 		../../mainwindow.cpp \
 		../../frmabout.cpp \
 		../../frmstablematching.cpp \
 		../../frmpriorityqueue.cpp \
 		../../heap.cpp \
 		../../binarytreebalanced.cpp \
-		../../help.cpp
+		../../help.cpp \
+		../../graphwidget.cpp \
+		../../frmgraphs.cpp \
+		../../gnode.cpp \
+		../../gedge.cpp \
+		../../tnode.cpp
 QMAKE_TARGET  = Algorithms
 DESTDIR       = 
 TARGET        = Algorithms.app/Contents/MacOS/Algorithms
@@ -246,7 +274,7 @@ TARGET        = Algorithms.app/Contents/MacOS/Algorithms
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h $(OBJECTS)  
 	@test -d Algorithms.app/Contents/MacOS/ || mkdir -p Algorithms.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -382,6 +410,7 @@ Makefile: ../../Algorithms.pro /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -546,6 +575,7 @@ Makefile: ../../Algorithms.pro /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/qt_config.prf:
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang/qmake.conf:
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/exclusive_builds.prf:
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/default_pre.prf:
 /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/features/mac/default_pre.prf:
@@ -606,9 +636,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h ../../binarytreebalanced.h ../../help.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp ../../binarytreebalanced.cpp ../../help.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.ui ../../frmabout.ui ../../frmperfectmatching.ui ../../frmpriorityqueue.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h ../../binarytreebalanced.h ../../help.h ../../graphwidget.h ../../frmgraphs.h ../../gnode.h ../../gedge.h ../../tnode.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp ../../binarytreebalanced.cpp ../../help.cpp ../../graphwidget.cpp ../../frmgraphs.cpp ../../gnode.cpp ../../gedge.cpp ../../tnode.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.ui ../../frmabout.ui ../../frmperfectmatching.ui ../../frmpriorityqueue.ui ../../frmgraphs.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -634,9 +664,9 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_frmabout.cpp moc_frmstablematching.cpp moc_frmpriorityqueue.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_frmabout.cpp moc_frmstablematching.cpp moc_frmpriorityqueue.cpp moc_graphwidget.cpp moc_frmgraphs.cpp moc_gnode.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_frmabout.cpp moc_frmstablematching.cpp moc_frmpriorityqueue.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_frmabout.cpp moc_frmstablematching.cpp moc_frmpriorityqueue.cpp moc_graphwidget.cpp moc_frmgraphs.cpp moc_gnode.cpp
 moc_mainwindow.cpp: /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../mainwindow.h \
@@ -673,11 +703,83 @@ moc_frmpriorityqueue.cpp: ../../heap.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang -I/Users/jorgeomarmedratorres/Documents/JOMT/GitHub/Algorithms -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineCore.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQuick.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebChannel.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQml.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtNetwork.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -I'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)' -F/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib ../../frmpriorityqueue.h -o moc_frmpriorityqueue.cpp
 
+moc_graphwidget.cpp: /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h \
+		../../graphwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc
+	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang -I/Users/jorgeomarmedratorres/Documents/JOMT/GitHub/Algorithms -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineCore.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQuick.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebChannel.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQml.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtNetwork.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -I'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)' -F/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib ../../graphwidget.h -o moc_graphwidget.cpp
+
+moc_frmgraphs.cpp: /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		../../graphwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h \
+		../../tnode.h \
+		../../frmgraphs.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc
+	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang -I/Users/jorgeomarmedratorres/Documents/JOMT/GitHub/Algorithms -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineCore.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQuick.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebChannel.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQml.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtNetwork.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -I'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)' -F/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib ../../frmgraphs.h -o moc_frmgraphs.cpp
+
+moc_gnode.cpp: /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc
+	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/mkspecs/macx-clang -I/Users/jorgeomarmedratorres/Documents/JOMT/GitHub/Algorithms -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebEngineCore.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQuick.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWebChannel.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtQml.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtNetwork.framework/Headers -I/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -I'/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks (framework directory)' -F/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib ../../gnode.h -o moc_gnode.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h
+compiler_uic_make_all: ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h
+	-$(DEL_FILE) ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h
 ui_mainwindow.h: ../../mainwindow.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../mainwindow.ui -o ui_mainwindow.h
@@ -693,6 +795,10 @@ ui_frmperfectmatching.h: ../../frmperfectmatching.ui \
 ui_frmpriorityqueue.h: ../../frmpriorityqueue.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmpriorityqueue.ui -o ui_frmpriorityqueue.h
+
+ui_frmgraphs.h: ../../frmgraphs.ui \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
+	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmgraphs.ui -o ui_frmgraphs.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -736,7 +842,25 @@ mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSimpleTextItem \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
-		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../frmgraphs.h \
+		../../graphwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h \
+		../../tnode.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
 
 frmabout.o: ../../frmabout.cpp ../../frmabout.h \
@@ -804,6 +928,99 @@ help.o: ../../help.cpp /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWe
 		../../help.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o help.o ../../help.cpp
 
+graphwidget.o: ../../graphwidget.cpp ../../graphwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qevent.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o graphwidget.o ../../graphwidget.cpp
+
+frmgraphs.o: ../../frmgraphs.cpp ../../frmgraphs.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
+		../../graphwidget.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h \
+		../../tnode.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o frmgraphs.o ../../frmgraphs.cpp
+
+gnode.o: ../../gnode.cpp ../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gedge.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gnode.o ../../gnode.cpp
+
+gedge.o: ../../gedge.cpp ../../gedge.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsLineItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QBrush \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qbrush.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QFont \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qfont.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
+		../../gnode.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsSceneMouseEvent \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QObject \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qobject.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gedge.o ../../gedge.cpp
+
+tnode.o: ../../tnode.cpp ../../tnode.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tnode.o ../../tnode.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -815,6 +1032,15 @@ moc_frmstablematching.o: moc_frmstablematching.cpp
 
 moc_frmpriorityqueue.o: moc_frmpriorityqueue.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_frmpriorityqueue.o moc_frmpriorityqueue.cpp
+
+moc_graphwidget.o: moc_graphwidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_graphwidget.o moc_graphwidget.cpp
+
+moc_frmgraphs.o: moc_frmgraphs.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_frmgraphs.o moc_frmgraphs.cpp
+
+moc_gnode.o: moc_gnode.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_gnode.o moc_gnode.cpp
 
 ####### Install
 

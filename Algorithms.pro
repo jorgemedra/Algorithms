@@ -20,7 +20,12 @@ SOURCES += main.cpp\
     frmpriorityqueue.cpp \
     heap.cpp \
     binarytreebalanced.cpp \
-    help.cpp
+    help.cpp \
+    graphwidget.cpp \
+    frmgraphs.cpp \
+    gnode.cpp \
+    gedge.cpp \
+    tnode.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
@@ -28,12 +33,18 @@ HEADERS  += mainwindow.h \
     frmpriorityqueue.h \
     heap.h \
     binarytreebalanced.h \
-    help.h
+    help.h \
+    graphwidget.h \
+    frmgraphs.h \
+    gnode.h \
+    gedge.h \
+    tnode.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \
     frmperfectmatching.ui \
-    frmpriorityqueue.ui
+    frmpriorityqueue.ui \
+    frmgraphs.ui
 
 DISTFILES += \
     Readme.md

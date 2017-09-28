@@ -25,6 +25,8 @@ private slots:
 
     void on_actionPriority_Queue_triggered();
 
+    void on_actionBSD_triggered();
+
 private:
     Ui::MainWindow *ui;
 

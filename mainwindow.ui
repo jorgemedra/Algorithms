@@ -63,7 +63,14 @@
      <addaction name="actionStable_Matching"/>
      <addaction name="actionPriority_Queue"/>
     </widget>
+    <widget class="QMenu" name="menuGraphs">
+     <property name="title">
+      <string>Graphs</string>
+     </property>
+     <addaction name="actionBSD"/>
+    </widget>
     <addaction name="menuBasic"/>
+    <addaction name="menuGraphs"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -112,6 +119,11 @@
   <action name="actionPriority_Queue">
    <property name="text">
     <string>Priority Queue</string>
+   </property>
+  </action>
+  <action name="actionBSD">
+   <property name="text">
+    <string>BFS/DFS</string>
    </property>
   </action>
  </widget>

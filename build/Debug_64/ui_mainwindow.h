@@ -32,12 +32,14 @@ public:
     QAction *actionLogs;
     QAction *actionStable_Matching;
     QAction *actionPriority_Queue;
+    QAction *actionBSD;
     QWidget *centralWidget;
     QMdiArea *mdiArea;
     QMenuBar *menuBar;
     QMenu *menuAlgorithms;
     QMenu *menuSystem;
     QMenu *menuBasic;
+    QMenu *menuGraphs;
     QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -57,6 +59,8 @@ public:
         actionStable_Matching->setObjectName(QStringLiteral("actionStable_Matching"));
         actionPriority_Queue = new QAction(MainWindow);
         actionPriority_Queue->setObjectName(QStringLiteral("actionPriority_Queue"));
+        actionBSD = new QAction(MainWindow);
+        actionBSD->setObjectName(QStringLiteral("actionBSD"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         mdiArea = new QMdiArea(centralWidget);
@@ -76,6 +80,8 @@ public:
         menuSystem->setObjectName(QStringLiteral("menuSystem"));
         menuBasic = new QMenu(menuSystem);
         menuBasic->setObjectName(QStringLiteral("menuBasic"));
+        menuGraphs = new QMenu(menuSystem);
+        menuGraphs->setObjectName(QStringLiteral("menuGraphs"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
         MainWindow->setMenuBar(menuBar);
@@ -91,8 +97,10 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuAlgorithms->addAction(actionLogs);
         menuSystem->addAction(menuBasic->menuAction());
+        menuSystem->addAction(menuGraphs->menuAction());
         menuBasic->addAction(actionStable_Matching);
         menuBasic->addAction(actionPriority_Queue);
+        menuGraphs->addAction(actionBSD);
         menuHelp->addAction(actionMain_Documentation);
         menuHelp->addSeparator();
         menuHelp->addAction(actionAbout);
@@ -111,9 +119,11 @@ public:
         actionLogs->setText(QApplication::translate("MainWindow", "Logs", 0));
         actionStable_Matching->setText(QApplication::translate("MainWindow", "Stable Matching", 0));
         actionPriority_Queue->setText(QApplication::translate("MainWindow", "Priority Queue", 0));
+        actionBSD->setText(QApplication::translate("MainWindow", "BFS/DFS", 0));
         menuAlgorithms->setTitle(QApplication::translate("MainWindow", "System", 0));
         menuSystem->setTitle(QApplication::translate("MainWindow", "Algorithm", 0));
         menuBasic->setTitle(QApplication::translate("MainWindow", "Basic", 0));
+        menuGraphs->setTitle(QApplication::translate("MainWindow", "Graphs", 0));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));
     } // retranslateUi
 

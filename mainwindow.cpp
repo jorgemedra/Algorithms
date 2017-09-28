@@ -5,6 +5,7 @@
 #include "frmabout.h"
 #include "frmstablematching.h"
 #include "frmpriorityqueue.h"
+#include "frmgraphs.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -41,17 +42,24 @@ void MainWindow::on_actionMain_Documentation_triggered()
 
 void MainWindow::on_actionStable_Matching_triggered()
 {
-    frmStableMatching* pmthc = new frmStableMatching(this);
+    frmStableMatching* wnd = new frmStableMatching(this);
 
-    ui->mdiArea->addSubWindow(pmthc);
-    pmthc->showMaximized();
-
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
 }
 
 void MainWindow::on_actionPriority_Queue_triggered()
 {
-    frmPriorityQueue* prtQueue = new frmPriorityQueue(this);
+    frmPriorityQueue* wnd = new frmPriorityQueue(this);
 
-    ui->mdiArea->addSubWindow(prtQueue);
-    prtQueue->showMaximized();
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionBSD_triggered()
+{
+    frmGraphFS* wnd = new frmGraphFS(this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
 }
