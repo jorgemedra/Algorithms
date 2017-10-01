@@ -1,4 +1,5 @@
 #include "graphwidget.h"
+#include <QGraphicsOpacityEffect>
 #include <QMouseEvent>
 #include <QObject>
 
@@ -150,7 +151,36 @@ void GraphWidget::connectNodes()
     end->setEdge(edge);
     edge->setNodes(beg,end);
 
+    _Edges[_EdgeIndex] = edge;
 
     nodesConnected(beg,end,edge);
     resetNodes();
 }
+
+
+void GraphWidget::resetGraphAppearance(bool hided)
+{
+    for(int i=0; i<= _NodeIndex; i++)
+        setItemOpacity(i, GITEM_NODE, hided);
+
+    for(int i=0; i<= _EdgeIndex; i++)
+        setItemOpacity(i, GITEM_EDGE, hided);
+}
+
+void GraphWidget::setItemOpacity(int id, int itemType,  bool isHide)
+{
+    QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect();
+
+    if(isHide)
+        effect->setOpacity(0.25);
+    else
+        effect->setOpacity(1);
+
+    if(itemType == GITEM_NODE && (id >=0 && id <= _NodeIndex))
+        _Nodes[id]->setGraphicsEffect(effect);
+    else if(itemType == GITEM_EDGE && (id >=0 && id <= _EdgeIndex))
+        _Edges[id]->setGraphicsEffect(effect);
+
+
+}
+

@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     frmgraphs.cpp \
     gnode.cpp \
     gedge.cpp \
-    tnode.cpp
+    tnode.cpp \
+    afirstsearch.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
@@ -38,13 +39,14 @@ HEADERS  += mainwindow.h \
     frmgraphs.h \
     gnode.h \
     gedge.h \
-    tnode.h
+    tnode.h \
+    afirstsearch.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \
-    frmperfectmatching.ui \
     frmpriorityqueue.ui \
-    frmgraphs.ui
+    frmgraphs.ui \
+    frmstablematching.ui
 
 DISTFILES += \
     Readme.md

@@ -8,6 +8,7 @@ class TNode
     int _id;
     int _parent;
     std::vector<std::pair<int,int>> _adjs;
+
 public:
     TNode(int id):_id(id),_parent(-1){}
 

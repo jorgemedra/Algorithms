@@ -141,10 +141,3 @@ void GNode::setEdge(GEdge* edge)
 {
     _edges.push_back(edge);
 }
-
-/*
-GEdge* GNode::getEdge(int i)
-{
-    return _edge;
-}
-*/

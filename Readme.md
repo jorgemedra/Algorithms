@@ -10,11 +10,9 @@ This project has the intention to show how to implement some of the most famous 
 + Qt 5.7.0
 + Qt Creator 4.0.2
 
-# Algorithms
+# Infromation
 
-## Basics
-+ [Stable Matching Algorithm](https://github.com/jorgemedra/Algorithms/wiki/Stable-Matching-Algorithm)
-+ [Priority Queue (Using Heap)](https://)
+Check the [Wiki Documentation](https://github.com/jorgemedra/Algorithms/wiki) for more information about this project.
 
 # Books
 

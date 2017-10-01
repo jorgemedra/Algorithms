@@ -8,7 +8,10 @@
 #include<gedge.h>
 
 #define MAX_GNODES      50
-#define MAX_EDGES       2500
+#define MAX_EDGES       1180
+
+#define GITEM_NODE  0
+#define GITEM_EDGE  1
 
 
 class GraphWidget: public QGraphicsView
@@ -25,7 +28,7 @@ class GraphWidget: public QGraphicsView
     int _NodeIndex;
     GNode* _Nodes[MAX_GNODES];
     int _EdgeIndex;
-    GNode* _Edges[MAX_EDGES];
+    GEdge* _Edges[MAX_EDGES];
 
     bool bShift;
     int nSelected[2];
@@ -51,6 +54,10 @@ public slots:
 
 public:
     GraphWidget(QWidget *parent = 0);
+
+    void resetGraphAppearance(bool hided);
+    void setItemOpacity(int id, int itemType,  bool hided);
+
 
 };
 

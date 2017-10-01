@@ -60,7 +60,8 @@ SOURCES       = ../../main.cpp \
 		../../frmgraphs.cpp \
 		../../gnode.cpp \
 		../../gedge.cpp \
-		../../tnode.cpp moc_mainwindow.cpp \
+		../../tnode.cpp \
+		../../afirstsearch.cpp moc_mainwindow.cpp \
 		moc_frmabout.cpp \
 		moc_frmstablematching.cpp \
 		moc_frmpriorityqueue.cpp \
@@ -80,6 +81,7 @@ OBJECTS       = main.o \
 		gnode.o \
 		gedge.o \
 		tnode.o \
+		afirstsearch.o \
 		moc_mainwindow.o \
 		moc_frmabout.o \
 		moc_frmstablematching.o \
@@ -254,7 +256,8 @@ DIST          = ../../Readme.md \
 		../../frmgraphs.h \
 		../../gnode.h \
 		../../gedge.h \
-		../../tnode.h ../../main.cpp \
+		../../tnode.h \
+		../../afirstsearch.h ../../main.cpp \
 		../../mainwindow.cpp \
 		../../frmabout.cpp \
 		../../frmstablematching.cpp \
@@ -266,7 +269,8 @@ DIST          = ../../Readme.md \
 		../../frmgraphs.cpp \
 		../../gnode.cpp \
 		../../gedge.cpp \
-		../../tnode.cpp
+		../../tnode.cpp \
+		../../afirstsearch.cpp
 QMAKE_TARGET  = Algorithms
 DESTDIR       = 
 TARGET        = Algorithms.app/Contents/MacOS/Algorithms
@@ -275,7 +279,7 @@ TARGET        = Algorithms.app/Contents/MacOS/Algorithms
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_frmabout.h ui_frmpriorityqueue.h ui_frmgraphs.h ui_frmstablematching.h $(OBJECTS)  
 	@test -d Algorithms.app/Contents/MacOS/ || mkdir -p Algorithms.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -639,9 +643,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h ../../binarytreebalanced.h ../../help.h ../../graphwidget.h ../../frmgraphs.h ../../gnode.h ../../gedge.h ../../tnode.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp ../../binarytreebalanced.cpp ../../help.cpp ../../graphwidget.cpp ../../frmgraphs.cpp ../../gnode.cpp ../../gedge.cpp ../../tnode.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.ui ../../frmabout.ui ../../frmperfectmatching.ui ../../frmpriorityqueue.ui ../../frmgraphs.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.h ../../frmabout.h ../../frmstablematching.h ../../frmpriorityqueue.h ../../heap.h ../../binarytreebalanced.h ../../help.h ../../graphwidget.h ../../frmgraphs.h ../../gnode.h ../../gedge.h ../../tnode.h ../../afirstsearch.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../frmabout.cpp ../../frmstablematching.cpp ../../frmpriorityqueue.cpp ../../heap.cpp ../../binarytreebalanced.cpp ../../help.cpp ../../graphwidget.cpp ../../frmgraphs.cpp ../../gnode.cpp ../../gedge.cpp ../../tnode.cpp ../../afirstsearch.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainwindow.ui ../../frmabout.ui ../../frmpriorityqueue.ui ../../frmgraphs.ui ../../frmstablematching.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -780,9 +784,9 @@ moc_gnode.cpp: /Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.fr
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h
+compiler_uic_make_all: ui_mainwindow.h ui_frmabout.h ui_frmpriorityqueue.h ui_frmgraphs.h ui_frmstablematching.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_frmabout.h ui_frmperfectmatching.h ui_frmpriorityqueue.h ui_frmgraphs.h
+	-$(DEL_FILE) ui_mainwindow.h ui_frmabout.h ui_frmpriorityqueue.h ui_frmgraphs.h ui_frmstablematching.h
 ui_mainwindow.h: ../../mainwindow.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../mainwindow.ui -o ui_mainwindow.h
@@ -791,10 +795,6 @@ ui_frmabout.h: ../../frmabout.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmabout.ui -o ui_frmabout.h
 
-ui_frmperfectmatching.h: ../../frmperfectmatching.ui \
-		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
-	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmperfectmatching.ui -o ui_frmperfectmatching.h
-
 ui_frmpriorityqueue.h: ../../frmpriorityqueue.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmpriorityqueue.ui -o ui_frmpriorityqueue.h
@@ -802,6 +802,10 @@ ui_frmpriorityqueue.h: ../../frmpriorityqueue.ui \
 ui_frmgraphs.h: ../../frmgraphs.ui \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
 	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmgraphs.ui -o ui_frmgraphs.h
+
+ui_frmstablematching.h: ../../frmstablematching.ui \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic
+	/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/bin/uic ../../frmstablematching.ui -o ui_frmstablematching.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -883,7 +887,7 @@ frmstablematching.o: ../../frmstablematching.cpp ../../frmstablematching.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QTableWidget \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qtablewidget.h \
-		ui_frmperfectmatching.h \
+		ui_frmstablematching.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QSet \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/qset.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtCore.framework/Headers/QStringList \
@@ -954,6 +958,8 @@ graphwidget.o: ../../graphwidget.cpp ../../graphwidget.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
 		../../gedge.h \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsOpacityEffect \
+		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtWidgets.framework/Headers/qgraphicseffect.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qevent.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o graphwidget.o ../../graphwidget.cpp
@@ -982,7 +988,9 @@ frmgraphs.o: ../../frmgraphs.cpp ../../frmgraphs.h \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/QPen \
 		/Users/jorgeomarmedratorres/Qt5.7.0/5.7/clang_64/lib/QtGui.framework/Headers/qpen.h \
 		../../gedge.h \
-		../../tnode.h
+		../../tnode.h \
+		ui_frmgraphs.h \
+		../../afirstsearch.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o frmgraphs.o ../../frmgraphs.cpp
 
 gnode.o: ../../gnode.cpp ../../gnode.h \
@@ -1023,6 +1031,10 @@ gedge.o: ../../gedge.cpp ../../gedge.h \
 
 tnode.o: ../../tnode.cpp ../../tnode.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tnode.o ../../tnode.cpp
+
+afirstsearch.o: ../../afirstsearch.cpp ../../afirstsearch.h \
+		../../tnode.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o afirstsearch.o ../../afirstsearch.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

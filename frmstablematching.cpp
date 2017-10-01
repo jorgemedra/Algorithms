@@ -1,5 +1,5 @@
 #include "frmstablematching.h"
-#include "ui_frmperfectmatching.h"
+#include "ui_frmstablematching.h"
 
 #include<QSet>
 #include<QStringList>

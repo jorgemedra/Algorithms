@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_frmGraphFS_t {
-    QByteArrayData data[12];
-    char stringdata0[96];
+    QByteArrayData data[14];
+    char stringdata0[140];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,12 +40,15 @@ QT_MOC_LITERAL(7, 53, 14), // "nodesConnected"
 QT_MOC_LITERAL(8, 68, 7), // "nodeIni"
 QT_MOC_LITERAL(9, 76, 7), // "nodeFin"
 QT_MOC_LITERAL(10, 84, 6), // "GEdge*"
-QT_MOC_LITERAL(11, 91, 4) // "edge"
+QT_MOC_LITERAL(11, 91, 4), // "edge"
+QT_MOC_LITERAL(12, 96, 23), // "on_cmdBuildTree_clicked"
+QT_MOC_LITERAL(13, 120, 19) // "on_cmdClear_clicked"
 
     },
     "frmGraphFS\0errorRaised\0\0code\0nodeCreated\0"
     "GNode*\0node\0nodesConnected\0nodeIni\0"
-    "nodeFin\0GEdge*\0edge"
+    "nodeFin\0GEdge*\0edge\0on_cmdBuildTree_clicked\0"
+    "on_cmdClear_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,7 +58,7 @@ static const uint qt_meta_data_frmGraphFS[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -63,14 +66,18 @@ static const uint qt_meta_data_frmGraphFS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x0a /* Public */,
-       4,    1,   32,    2, 0x0a /* Public */,
-       7,    3,   35,    2, 0x0a /* Public */,
+       1,    1,   39,    2, 0x0a /* Public */,
+       4,    1,   42,    2, 0x0a /* Public */,
+       7,    3,   45,    2, 0x0a /* Public */,
+      12,    0,   52,    2, 0x08 /* Private */,
+      13,    0,   53,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, 0x80000000 | 5,    6,
     QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5, 0x80000000 | 10,    8,    9,   11,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -84,6 +91,8 @@ void frmGraphFS::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->errorRaised((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->nodeCreated((*reinterpret_cast< GNode*(*)>(_a[1]))); break;
         case 2: _t->nodesConnected((*reinterpret_cast< GNode*(*)>(_a[1])),(*reinterpret_cast< GNode*(*)>(_a[2])),(*reinterpret_cast< GEdge*(*)>(_a[3]))); break;
+        case 3: _t->on_cmdBuildTree_clicked(); break;
+        case 4: _t->on_cmdClear_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -133,13 +142,13 @@ int frmGraphFS::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }

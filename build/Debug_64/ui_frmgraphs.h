@@ -37,9 +37,6 @@ public:
     QRadioButton *optBFS;
     QRadioButton *optDFS;
     QPushButton *cmdBuildTree;
-    QLabel *label;
-    QComboBox *cmbFNode;
-    QPushButton *cmdFindNode;
     QTextEdit *txtLogs;
     QPushButton *cmdClear;
 
@@ -88,24 +85,6 @@ public:
 
         LytContols->addWidget(cmdBuildTree);
 
-        label = new QLabel(frmGraphFS);
-        label->setObjectName(QStringLiteral("label"));
-        label->setMaximumSize(QSize(150, 20));
-
-        LytContols->addWidget(label);
-
-        cmbFNode = new QComboBox(frmGraphFS);
-        cmbFNode->setObjectName(QStringLiteral("cmbFNode"));
-        cmbFNode->setMaximumSize(QSize(100, 16777215));
-
-        LytContols->addWidget(cmbFNode);
-
-        cmdFindNode = new QPushButton(frmGraphFS);
-        cmdFindNode->setObjectName(QStringLiteral("cmdFindNode"));
-        cmdFindNode->setMaximumSize(QSize(100, 16777215));
-
-        LytContols->addWidget(cmdFindNode);
-
 
         lytHor->addLayout(LytContols);
 
@@ -140,8 +119,6 @@ public:
         optBFS->setText(QApplication::translate("frmGraphFS", "Use BFS", 0));
         optDFS->setText(QApplication::translate("frmGraphFS", "Use DFS", 0));
         cmdBuildTree->setText(QApplication::translate("frmGraphFS", "Build Tree", 0));
-        label->setText(QApplication::translate("frmGraphFS", "<html><head/><body><p><span style=\" font-size:10pt;\">Select a node to search</span></p></body></html>", 0));
-        cmdFindNode->setText(QApplication::translate("frmGraphFS", "Find Node", 0));
         cmdClear->setText(QApplication::translate("frmGraphFS", "Clear Logs", 0));
     } // retranslateUi
 
