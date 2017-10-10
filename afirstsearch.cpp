@@ -1,6 +1,7 @@
 #include "afirstsearch.h"
 #include <queue>
 #include <stack>
+#include <vector>
 
 using namespace algorithms;
 using namespace std;
@@ -13,6 +14,7 @@ AFirstSearch::AFirstSearch()
 void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps)
 {
     queue<TNode*> levelQueue;
+    bool currentOddStatus = true;
 
     steps << "Tree BFS:" << endl;
     if(G.empty())
@@ -21,14 +23,10 @@ void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstr
         return;
     }
 
-    bool* discovey = new bool[G.size()];
-    int* parents = new int[G.size()];
-
-    for(int i=0; i < (int)G.size(); i++)
-    {
-        discovey[i]=false;
-        parents[i]=-1;
-    }
+    vector<bool> discovey(G.size(),false);
+    vector<int> parents(G.size(), -1);
+    vector<int> layerByNode(G.size(), -1);
+    vector<bool> isOdd(G.size(), false);
 
     T.clear();
     T.resize(G.size());
@@ -36,6 +34,8 @@ void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstr
     levelQueue.push(G[root]);
     discovey[root] = true;
     parents[root] = -1;
+    layerByNode[root] = 0; //The root node is layer 0.
+    isOdd[root] = true; //The firt node is Odd
 
     steps << "\tStart to build Tree with BFS, from node [" << root << "]" << endl;
 
@@ -49,6 +49,7 @@ void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstr
         tn->setParent(parents[node->getId()]);
         T[node->getId()] = tn; //set the node at the Tree
 
+        //Check childs
         for(int i=0; i < adjNodes; i++)
         {
             std::pair<int,int> adj = node->getAdjacent(i);
@@ -61,12 +62,18 @@ void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstr
                 parents[adj.first] = tn->getId();
                 levelQueue.push(G[adj.first]); //Add the nodo at the queue (Adding to one level upper)..
                 discovey[adj.first] = true;
+
+                layerByNode[adj.first] = layerByNode[node->getId()] + 1; //The new child discovered has a upper level.
+                isOdd[adj.first] = !isOdd[node->getId()]; //The child must be the opposit of its parent (Odd or Even).
+            }
+            else
+            {
+                if(isOdd[adj.first] == isOdd[node->getId()])
+                    steps << "\t\t**The edge with nodes [" << adj.first << "] and [" << node->getId() << "] are not allowing the Graph to comply with the Bipartiteness propertie.**" << endl;
             }
         }
     }
 
-    delete[] discovey;
-    delete[] parents;
 }
 
 

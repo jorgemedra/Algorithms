@@ -116,7 +116,7 @@ public:
     {
         frmGraphFS->setWindowTitle(QApplication::translate("frmGraphFS", "Form", 0));
         lb1->setText(QApplication::translate("frmGraphFS", "<html><head/><body><p><span style=\" font-size:11pt;\">Select a Node as Root</span></p></body></html>", 0));
-        optBFS->setText(QApplication::translate("frmGraphFS", "Use BFS", 0));
+        optBFS->setText(QApplication::translate("frmGraphFS", "Use BFS and Check Bipartiteness", 0));
         optDFS->setText(QApplication::translate("frmGraphFS", "Use DFS", 0));
         cmdBuildTree->setText(QApplication::translate("frmGraphFS", "Build Tree", 0));
         cmdClear->setText(QApplication::translate("frmGraphFS", "Clear Logs", 0));

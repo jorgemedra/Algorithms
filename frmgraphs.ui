@@ -55,7 +55,7 @@
          <item>
           <widget class="QRadioButton" name="optBFS">
            <property name="text">
-            <string>Use BFS</string>
+            <string>Use BFS and Check Bipartiteness</string>
            </property>
            <property name="checked">
             <bool>true</bool>
