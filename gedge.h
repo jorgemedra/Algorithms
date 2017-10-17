@@ -19,6 +19,12 @@ class GEdge : public QGraphicsLineItem
     GNode* _nBegin;
     GNode* _nEnd;
 
+    bool _bArrow;
+    QGraphicsLineItem* _upAL;
+    QGraphicsLineItem* _dnAL;
+
+    void updateArrow(bool showArrow = false);
+
 public:
     GEdge(QGraphicsItem *parent=0);
 
