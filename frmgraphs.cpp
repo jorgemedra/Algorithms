@@ -16,6 +16,7 @@ frmGraphFS::frmGraphFS(QWidget *parent) :
 {
     ui->setupUi(this);
     widget = new GraphWidget();
+    widget->setDirectedGraph(false);
 
     ui->lytHor->addWidget(widget);
 

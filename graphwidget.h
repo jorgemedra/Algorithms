@@ -31,6 +31,7 @@ class GraphWidget: public QGraphicsView
     GEdge* _Edges[MAX_EDGES];
 
     bool bShift;
+    bool _bDirected;
     int nSelected[2];
     int _countSel;
     void resetNodes();
@@ -55,6 +56,7 @@ public slots:
 public:
     GraphWidget(QWidget *parent = 0);
 
+    void setDirectedGraph(bool bDirected);
     void resetGraphAppearance(bool hided);
     void setItemOpacity(int id, int itemType,  bool hided);
 

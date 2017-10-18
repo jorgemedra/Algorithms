@@ -14,6 +14,7 @@ GraphWidget::GraphWidget(QWidget *parent)
     : QGraphicsView(parent),      
       _NodeIndex(-1),
       _EdgeIndex(-1),
+      _bDirected(false),
       bShift(false),
       _countSel(0)
 {    
@@ -144,6 +145,7 @@ void GraphWidget::connectNodes()
     edge->setId(_EdgeIndex);
     edge->setLine(line);
     edge->setZValue(-1);
+    edge->showArrow(_bDirected);
 
     beg->setAdjacentNode(end);
     beg->setEdge(edge);
@@ -157,6 +159,10 @@ void GraphWidget::connectNodes()
     resetNodes();
 }
 
+void GraphWidget::setDirectedGraph(bool bDirected)
+{
+    _bDirected = bDirected;
+}
 
 void GraphWidget::resetGraphAppearance(bool hided)
 {

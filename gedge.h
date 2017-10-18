@@ -32,6 +32,7 @@ public:
     bool getShade();
     void setId(int);
     int getId();
+    void showArrow(bool value);
     void setNodes(GNode* nBeg, GNode* nEnd);
     GNode* getNode(bool isBegin);
     void updateByNode();
