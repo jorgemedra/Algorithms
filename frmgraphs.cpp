@@ -10,14 +10,13 @@
 using namespace std;
 using namespace algorithms;
 
-frmGraphFS::frmGraphFS(QWidget *parent) :
+frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::frmGraphFS)
+    ui(new Ui::frmGraphFS),
+    _bDirected(directed)
 {
     ui->setupUi(this);
-    widget = new GraphWidget();
-    widget->setDirectedGraph(false);
-
+    widget = new GraphWidget(directed);
     ui->lytHor->addWidget(widget);
 
     connect(widget, SIGNAL(errorRaised(int)), this, SLOT(errorRaised(int)));

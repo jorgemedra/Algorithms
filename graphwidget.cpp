@@ -10,11 +10,11 @@
 
 using namespace std;
 
-GraphWidget::GraphWidget(QWidget *parent)
+GraphWidget::GraphWidget(bool directed, QWidget *parent)
     : QGraphicsView(parent),      
       _NodeIndex(-1),
       _EdgeIndex(-1),
-      _bDirected(false),
+      _bDirected(directed),
       bShift(false),
       _countSel(0)
 {    
@@ -157,11 +157,6 @@ void GraphWidget::connectNodes()
 
     nodesConnected(beg,end,edge);
     resetNodes();
-}
-
-void GraphWidget::setDirectedGraph(bool bDirected)
-{
-    _bDirected = bDirected;
 }
 
 void GraphWidget::resetGraphAppearance(bool hided)

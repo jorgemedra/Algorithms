@@ -58,7 +58,15 @@ void MainWindow::on_actionPriority_Queue_triggered()
 
 void MainWindow::on_actionBSD_triggered()
 {
-    frmGraphFS* wnd = new frmGraphFS(this);
+    frmGraphFS* wnd = new frmGraphFS(false, this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionBFS_DFS_directed_triggered()
+{
+    frmGraphFS* wnd = new frmGraphFS(true, this);
 
     ui->mdiArea->addSubWindow(wnd);
     wnd->showMaximized();

@@ -15,7 +15,7 @@ class frmGraphFS : public QWidget
     Q_OBJECT
 
 public:
-    explicit frmGraphFS(QWidget *parent = 0);
+    explicit frmGraphFS(bool directed, QWidget *parent = 0);
     ~frmGraphFS();
 
 public slots:
@@ -35,6 +35,8 @@ private:
     GraphWidget *widget;
     std::vector<TNode*> G; //Graph
     std::vector<TNode*> T; //Tree
+
+    bool _bDirected;
 
     void writeLog(string log);
     void disposeGraph();

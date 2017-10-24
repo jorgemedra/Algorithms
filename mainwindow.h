@@ -27,6 +27,8 @@ private slots:
 
     void on_actionBSD_triggered();
 
+    void on_actionBFS_DFS_directed_triggered();
+
 private:
     Ui::MainWindow *ui;
 

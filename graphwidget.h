@@ -54,9 +54,8 @@ public slots:
     void nodePressed(GNode* node);
 
 public:
-    GraphWidget(QWidget *parent = 0);
+    GraphWidget(bool directed, QWidget *parent = 0);
 
-    void setDirectedGraph(bool bDirected);
     void resetGraphAppearance(bool hided);
     void setItemOpacity(int id, int itemType,  bool hided);
 

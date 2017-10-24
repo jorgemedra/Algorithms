@@ -68,6 +68,7 @@
       <string>Graphs</string>
      </property>
      <addaction name="actionBSD"/>
+     <addaction name="actionBFS_DFS_directed"/>
     </widget>
     <addaction name="menuBasic"/>
     <addaction name="menuGraphs"/>
@@ -123,7 +124,12 @@
   </action>
   <action name="actionBSD">
    <property name="text">
-    <string>BFS/DFS</string>
+    <string>BFS/DFS undirected</string>
+   </property>
+  </action>
+  <action name="actionBFS_DFS_directed">
+   <property name="text">
+    <string>BFS/DFS directed</string>
    </property>
   </action>
  </widget>
