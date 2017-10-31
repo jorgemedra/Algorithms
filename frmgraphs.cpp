@@ -19,6 +19,9 @@ frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
     widget = new GraphWidget(directed);
     ui->lytHor->addWidget(widget);
 
+    if(_bDirected)
+        ui->optBFS->setText("Use BFS.");
+
     connect(widget, SIGNAL(errorRaised(int)), this, SLOT(errorRaised(int)));
     connect(widget, SIGNAL(nodeCreated(GNode*)), this, SLOT(nodeCreated(GNode*)));
     connect(widget, SIGNAL(nodesConnected(GNode*, GNode*, GEdge*)), this, SLOT(nodesConnected(GNode*, GNode*, GEdge*)));
@@ -63,8 +66,13 @@ void frmGraphFS::nodesConnected(GNode* nodeBeg, GNode* nodeEnd, GEdge* edge)
     TNode* nodeB = G[nodeBeg->getId()];
     TNode* nodeE = G[nodeEnd->getId()];
 
-    nodeB->addAdjacentNode(nodeE->getId(), edge->getId()) ;
-    nodeE->addAdjacentNode(nodeB->getId(), edge->getId());
+
+    nodeB->addAdjacentNode(nodeE->getId(), edge->getId());
+
+    if(_bDirected)
+        nodeE->addAdjacentNode(nodeB->getId(), edge->getId(),false);
+    else
+        nodeE->addAdjacentNode(nodeB->getId(), edge->getId());
 }
 
 

@@ -70,6 +70,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="cnkDAG">
+           <property name="text">
+            <string>Check DAG Propertie</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="cmdBuildTree">
            <property name="maximumSize">
             <size>

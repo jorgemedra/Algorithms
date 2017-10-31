@@ -11,10 +11,9 @@ AFirstSearch::AFirstSearch()
 
 }
 
-void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps)
+void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps,bool checkBipartitenes)
 {
     queue<TNode*> levelQueue;
-    bool currentOddStatus = true;
 
     steps << "Tree BFS:" << endl;
     if(G.empty())
@@ -68,7 +67,7 @@ void AFirstSearch::BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstr
             }
             else
             {
-                if(isOdd[adj.first] == isOdd[node->getId()])
+                if(!checkBipartitenes && isOdd[adj.first] == isOdd[node->getId()])
                     steps << "\t\t**The edge with nodes [" << adj.first << "] and [" << node->getId() << "] are not allowing the Graph to comply with the Bipartiteness propertie.**" << endl;
             }
         }
@@ -129,4 +128,13 @@ void AFirstSearch::DFS(int root, bool* explored, int* parents, vector<TNode*> &G
             DFS(adj.first, explored, parents, G, T, steps);
         }
     }
+}
+
+void AFirstSearch::checkDAG(vector<TNode*> &G, stringstream &steps)
+{
+    vector<TNode*> tc(G);
+
+    steps << "Checking Directed Acyclic Graph (DGA) propertie:" << endl;
+
+
 }

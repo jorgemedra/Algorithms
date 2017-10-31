@@ -11,12 +11,15 @@ namespace algorithms
     class AFirstSearch
     {
 
-        void DFS(int root, bool* explored, int* parents, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps );
+        void DFS(int root, bool* explored, int* parents,
+                 vector<TNode*> &G, vector<TNode*> &T,
+                 stringstream &steps );
     public:
         AFirstSearch();
 
-        void BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps);
+        void BFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps, bool checkBipartitenes=true);
         void DFS(int root, vector<TNode*> &G, vector<TNode*> &T, stringstream &steps);
+        void checkDAG(vector<TNode*> &G, stringstream &steps);
     };
 }
 

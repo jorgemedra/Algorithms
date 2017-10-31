@@ -16,21 +16,34 @@ int TNode::getParent()
     return _parent;
 }
 
-int TNode::sizeOfAdjacent()
+void TNode::setActive(bool value)
 {
-    return _adjs.size();
+    _bActive = value;
 }
 
-void TNode::addAdjacentNode(int node, int edge)
+bool TNode::isActive()
+{
+    return _bActive;
+}
+
+int TNode::sizeOfAdjacent()
+{
+    return _adjsOut.size();
+}
+
+void TNode::addAdjacentNode(int node, int edge, bool isOut)
 {
     std::pair<int,int> tnode(node, edge);
-    _adjs.push_back(tnode);
+    if(isOut)
+        _adjsOut.push_back(tnode);
+    else
+        _adjsIn.push_back(tnode);
 }
 
 std::pair<int,int> TNode::getAdjacent(int index)
 {
 
-    if(index >= _adjs.size() || index < 0) return std::make_pair(-1, -1);
+    if(index >= _adjsOut.size() || index < 0) return std::make_pair(-1, -1);
 
-    return _adjs[index];
+    return _adjsOut[index];
 }
