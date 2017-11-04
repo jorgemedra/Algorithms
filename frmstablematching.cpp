@@ -242,3 +242,8 @@ int* frmStableMatching::stableMatching(int size, int** manPref, int** womanPref,
 }
 
 
+
+void frmStableMatching::on_cmdClear_clicked()
+{
+    ui->txtLog->clear();
+}

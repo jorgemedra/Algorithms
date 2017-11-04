@@ -21,6 +21,9 @@ frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
 
     if(_bDirected)
         ui->optBFS->setText("Use BFS.");
+    else
+        ui->chkDAG->setVisible(false);
+
 
     connect(widget, SIGNAL(errorRaised(int)), this, SLOT(errorRaised(int)));
     connect(widget, SIGNAL(nodeCreated(GNode*)), this, SLOT(nodeCreated(GNode*)));
@@ -126,6 +129,9 @@ void frmGraphFS::on_cmdBuildTree_clicked()
     else
         fs.DFS(root,G,T,steps);
 
+    if(_bDirected && ui->chkDAG->isChecked())
+        fs.checkDAG(G,steps);
+
     widget->resetGraphAppearance(true);
 
     for(unsigned long i=0; i< T.size(); i++)
@@ -137,7 +143,7 @@ void frmGraphFS::on_cmdBuildTree_clicked()
            widget->setItemOpacity(n->getId(), GITEM_NODE, false);
            for(int i=0; i< n->sizeOfAdjacent(); i++)
            {
-               std::pair<int,int> nad = n->getAdjacent(i);
+               std::pair<int,int> nad = n->getAdjacentOut(i);
                widget->setItemOpacity(nad.second, GITEM_EDGE, false);
            }
         }

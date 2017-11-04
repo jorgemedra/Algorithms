@@ -164,6 +164,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="cmdClear">
+     <property name="text">
+      <string>Clear Log</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

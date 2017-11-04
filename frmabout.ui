@@ -37,11 +37,11 @@
      <x>20</x>
      <y>10</y>
      <width>311</width>
-     <height>51</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#1747c9;&quot;&gt;Algorithm Samples&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#1747c9;&quot;&gt;Algorithms&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#1747c9; vertical-align:sub;&quot;&gt;V0.1 (November 3th, 2017)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>

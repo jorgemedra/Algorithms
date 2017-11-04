@@ -25,6 +25,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_cmdClear_clicked();
+
 private:
     Ui::frmPerfectMatching *ui;
     int _size;

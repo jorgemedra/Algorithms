@@ -46,10 +46,10 @@ HeapItem* Heap::operator[](int index)
 }
 
 /**
- * @brief Heap::Insert a new item int the queue and sort it.
+ * @brief Heap::Insert a new item into the queue and sort it, using heapify down or heapify up operation.
  * @param item Item to be inserted into the queue.
  * @param steps
- * @return
+ * @return True if the operation has been performed  without errors, false in the other case.
  */
 bool Heap::Insert(HeapItem* item, stringstream& steps)
 {
@@ -74,9 +74,9 @@ bool Heap::Insert(HeapItem* item, stringstream& steps)
 }
 
 /**
- * @brief Heap::FindMin
+ * @brief Heap::FindMin find the minimun element of the priority queue.
  * @param steps
- * @return
+ * @return The firs element of the priority queue.
  */
 HeapItem* Heap::FindMin(stringstream& steps)
 {
@@ -103,7 +103,7 @@ HeapItem* Heap::ExtractMin(stringstream& steps)
  * @brief Heap::Dequeue an item of the heap in specific position.
  * @param position The position of element in Base 1.
  * @param steps
- * @return
+ * @return the item that has been deleted.
  */
 HeapItem* Heap::Delete(int position, stringstream& steps)
 {
@@ -167,7 +167,7 @@ HeapItem* Heap::Delete(int position, stringstream& steps)
 
 /**
  * @brief Heap::heapify_Up
- * @param position In Base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
  * @param steps
  */
 void Heap::heapify_up(int position, stringstream& steps)
@@ -201,6 +201,11 @@ void Heap::heapify_up(int position, stringstream& steps)
         steps << "\tEnds without any change in position:["<< position << "]" << endl;
 }
 
+/**
+ * @brief Heap::heapify_down
+ * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @param steps
+ */
 void Heap::heapify_down(int position, stringstream& steps)
 {
     HeapItem* root=nullptr;

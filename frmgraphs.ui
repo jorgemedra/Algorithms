@@ -70,7 +70,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="cnkDAG">
+          <widget class="QCheckBox" name="chkDAG">
            <property name="text">
             <string>Check DAG Propertie</string>
            </property>

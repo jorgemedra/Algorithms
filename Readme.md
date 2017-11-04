@@ -17,3 +17,18 @@ Check the [Wiki Documentation](https://github.com/jorgemedra/Algorithms/wiki) fo
 # Books
 
 + [Algorithm Design,  by Jon Kleinberg](https://github.com/jorgemedra/Documentation/blob/master/Algorithm%20Design%20by%20Jon%20Kleinberg%2C%20Eva%20Tardos.pdf)
+
+
+# Versions
+
+## V0.1 (November 3th, 2017)
+
+- First version with implement the next Algoritms
+
+    1. Stable Matching, using a Stack structure.
+    2. Priority Queue, using a Heap Structure that has been developed inhouse.
+    3. Bread First Search (**BFS**) and Depth First Search (**DFS**) for directed and undirected graphs.
+    4. Validate if a undirected graph meets the Bipartiteness propertie, that's meaning that a graph G has no
+    odd cycles (The numbers of nodes which comform the cycle are even).
+    5. Validate if a directed graph meets the Direct Acyclic Graph (**DAC**) propertie.
+

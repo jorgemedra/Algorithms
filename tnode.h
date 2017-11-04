@@ -21,10 +21,10 @@ public:
     bool isActive();
     int sizeOfAdjacent();
     void addAdjacentNode(int node, int edge, bool isOut=true);
-    std::pair<int,int> getAdjacent(int index);
 
-
-
+    int getSizeOfAdjacentNodes(bool incomming);
+    std::pair<int,int> getAdjacentOut(int index);
+    std::pair<int,int> getAdjacentIn(int index);
 };
 
 #endif // TNODE_H
