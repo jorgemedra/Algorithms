@@ -23,7 +23,7 @@ Check the [Wiki Documentation](https://github.com/jorgemedra/Algorithms/wiki) fo
 
 ## V0.1 (November 3th, 2017)
 
-- First version with implement the next Algoritms
+- First version with implement the next Algorithms
 
     1. Stable Matching, using a Stack structure.
     2. Priority Queue, using a Heap Structure that has been developed inhouse.
