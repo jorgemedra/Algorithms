@@ -20,10 +20,15 @@ frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
     ui->lytHor->addWidget(widget);
 
     if(_bDirected)
+    {
         ui->optBFS->setText("Use BFS.");
+        setWindowTitle("Directed Graphs");
+    }
     else
+    {
         ui->chkDAG->setVisible(false);
-
+        setWindowTitle("Undirected Graphs");
+    }
 
     connect(widget, SIGNAL(errorRaised(int)), this, SLOT(errorRaised(int)));
     connect(widget, SIGNAL(nodeCreated(GNode*)), this, SLOT(nodeCreated(GNode*)));
