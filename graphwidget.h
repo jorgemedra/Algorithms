@@ -32,10 +32,12 @@ class GraphWidget: public QGraphicsView
 
     bool bShift;
     bool _bDirected;
+    bool _bArrowLabel;
     int nSelected[2];
     int _countSel;
     void resetNodes();
     void connectNodes();
+
 
 protected:
 
@@ -48,16 +50,19 @@ signals:
     void errorRaised(int code);
     void nodeCreated(GNode* node);
     void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
+    void nodeChanged(GNode* node);
 
 public slots:
 
     void nodePressed(GNode* node);
+    void nodeMoved(GNode* node);
 
 public:
     GraphWidget(bool directed, QWidget *parent = 0);
 
     void resetGraphAppearance(bool hided);
     void setItemOpacity(int id, int itemType,  bool hided);
+    void showArrowLabel();
 
 
 };

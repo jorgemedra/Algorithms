@@ -7,6 +7,7 @@
 #include<iostream>
 #include<sstream>
 #include<stack>
+#include<measuretool.h>
 
 using namespace std;
 
@@ -181,7 +182,11 @@ void frmStableMatching::on_pushButton_clicked()
  */
 int* frmStableMatching::stableMatching(int size, int** manPref, int** womanPref, stringstream& steps)
 {
+    measure::MeasureTool mt;
+
     steps << "-------------- Begin Stable Matching Algorithm--------------" << endl;
+
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     int stepCount = 0;
     int* womanEngagement = new int[size];
@@ -237,6 +242,7 @@ int* frmStableMatching::stableMatching(int size, int** manPref, int** womanPref,
 
     delete[] nextOffer;
 
+    mt.measureTime(t1,steps);
     steps << "--------------- End Stable Matching Algorithm ---------------" << endl;
     return womanEngagement;
 }

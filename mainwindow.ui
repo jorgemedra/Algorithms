@@ -61,7 +61,8 @@
       <string>Basic</string>
      </property>
      <addaction name="actionStable_Matching"/>
-     <addaction name="actionPriority_Queue"/>
+     <addaction name="actionPriority_Queue_By_Min"/>
+     <addaction name="actionPriority_Queue_By_Max"/>
     </widget>
     <widget class="QMenu" name="menuGraphs">
      <property name="title">
@@ -69,9 +70,12 @@
      </property>
      <addaction name="actionBSD"/>
      <addaction name="actionBFS_DFS_directed"/>
+     <addaction name="actionShorter_Path_undirected"/>
+     <addaction name="actionShorter_Path_directed"/>
     </widget>
     <addaction name="menuBasic"/>
     <addaction name="menuGraphs"/>
+    <addaction name="actionSorting"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -117,9 +121,9 @@
     <string>Stable Matching</string>
    </property>
   </action>
-  <action name="actionPriority_Queue">
+  <action name="actionPriority_Queue_By_Min">
    <property name="text">
-    <string>Priority Queue</string>
+    <string>Priority Queue By Min.</string>
    </property>
   </action>
   <action name="actionBSD">
@@ -130,6 +134,26 @@
   <action name="actionBFS_DFS_directed">
    <property name="text">
     <string>BFS/DFS directed</string>
+   </property>
+  </action>
+  <action name="actionPriority_Queue_By_Max">
+   <property name="text">
+    <string>Priority Queue By Max.</string>
+   </property>
+  </action>
+  <action name="actionShorter_Path_undirected">
+   <property name="text">
+    <string>Shorter Path undirected</string>
+   </property>
+  </action>
+  <action name="actionShorter_Path_directed">
+   <property name="text">
+    <string>Shorter Path directed</string>
+   </property>
+  </action>
+  <action name="actionSorting">
+   <property name="text">
+    <string>Sorting</string>
    </property>
   </action>
  </widget>

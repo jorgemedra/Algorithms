@@ -72,7 +72,7 @@
          <item>
           <widget class="QCheckBox" name="chkDAG">
            <property name="text">
-            <string>Check DAG Propertie</string>
+            <string>Check DAG Property</string>
            </property>
           </widget>
          </item>

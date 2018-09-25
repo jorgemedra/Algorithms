@@ -20,10 +20,14 @@ class GEdge : public QGraphicsLineItem
     GNode* _nEnd;
 
     bool _bArrow;
+    bool _bLabelArw;
     QGraphicsLineItem* _upAL;
     QGraphicsLineItem* _dnAL;
+    QGraphicsTextItem _label;
+    long _Longitud;
 
-    void updateArrow(bool showArrow = false);
+    void updateArrow();
+    void updateLabel();
 
 public:
     GEdge(QGraphicsItem *parent=0);
@@ -33,10 +37,12 @@ public:
     void setId(int);
     int getId();
     void showArrow(bool value);
+    void showLabel(bool value);
     void setNodes(GNode* nBeg, GNode* nEnd);
     GNode* getNode(bool isBegin);
     void updateByNode();
 
+    long getLongitud();
 };
 
 #endif // GEDGE_H

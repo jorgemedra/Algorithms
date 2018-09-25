@@ -6,28 +6,32 @@
 using namespace collections;
 using namespace std;
 
-frmPriorityQueue::frmPriorityQueue(QWidget *parent) :
+frmPriorityQueue::frmPriorityQueue(QWidget *parent, bool byMin) :
     QWidget(parent),
-    ui(new Ui::frmPriorityQueue)
+    ui(new Ui::frmPriorityQueue),
+    heap(byMin)
 {
     ui->setupUi(this);
-    setWindowTitle("Priority Qeueu with HEAP Algorithm");
+    if(byMin)
+        setWindowTitle("Priority Qeueu with HEAP Algorithm By Min.");
+    else
+        setWindowTitle("Priority Qeueu with HEAP Algorithm By Max.");
 
     scene =  new QGraphicsScene(this);
     ui->canvasViewe->setScene(scene);
 
-    heap = new Heap;
     tree = new BinaryTreeBalanced(heap);
 
     itemSelected = 0;
     ui->cmdDelete->setEnabled(false);
+
 }
 
 frmPriorityQueue::~frmPriorityQueue()
 {
+    on_cmdPurgeQueue_clicked();
     delete ui;
     delete tree;
-    delete heap;
 }
 
 
@@ -36,8 +40,8 @@ void frmPriorityQueue::on_cmdAddItem_clicked()
     stringstream steps;
 
     TreeNode* item = new TreeNode();
-    item->setKey(ui->txtKeyValue->text().toLong());
-    heap->Insert(item,steps);
+    item->ID = ui->txtKeyValue->text().toLong();
+    heap.Insert(item->ID, item, steps);
 
     steps << endl;
     writeLog(steps.str());
@@ -54,14 +58,14 @@ void frmPriorityQueue::drawTable()
 
     ui->tblHeap->clear();
     ui->tblHeap->setColumnCount(1);
-    ui->tblHeap->setRowCount(heap->size());
+    ui->tblHeap->setRowCount(heap.size());
     ui->tblHeap->setColumnWidth(0,120);
     ui->tblHeap->setHorizontalHeaderLabels(listV);
 
 
-    for(int r=0; r < heap->size(); r++)
+    for(size_t r=0; r < heap.size(); r++)
     {
-        HeapItem* item = heap->operator [](r+1);
+        TreeNode* item = heap[r+1];
         QTableWidgetItem* it = ui->tblHeap->item(r,0);
 
         if(it == 0)
@@ -70,13 +74,13 @@ void frmPriorityQueue::drawTable()
             ui->tblHeap->setItem(r, 0, it);
         }
 
-        it->setText(QString::number(item->getKey()));
+        it->setText(QString::number(item->ID));
     }
 }
 
 void frmPriorityQueue::drawTree()
 {
-    for(int i=1; i<= heap->size(); i++)
+    for(int i=1; i<= heap.size(); i++)
         tree->drawNode(i, scene);
 }
 
@@ -92,13 +96,13 @@ void frmPriorityQueue::on_tblHeap_clicked(const QModelIndex &index)
 void frmPriorityQueue::on_cmdDelete_clicked()
 {
     stringstream steps;
-
-    TreeNode* item = (TreeNode*)heap->Delete(itemSelected, steps);
+    bool success;
+    TreeNode* item = heap.Delete(itemSelected, success, steps);
 
     steps << endl;
     writeLog(steps.str());
 
-    if(item != nullptr)
+    if(success)
     {
         tree->deleteNode(item,scene);
         delete item;
@@ -131,19 +135,20 @@ void frmPriorityQueue::on_cmdPurgeQueue_clicked()
 {
     stringstream steps;
     stringstream out;
-
+    long key;
 
     steps << "::::::::::::::::::::::::::::" << endl
           << "::: Steps to Purge Queue ::: " << endl
           << "::::::::::::::::::::::::::::" << endl;
     out << " ::: Queue Output Sequence:::" << endl << "\t[";
 
-    while(heap->size() > 0)
+    while(heap.size() > 0)
     {
-        TreeNode* node = (TreeNode*) heap->ExtractMin(steps);
-        if(node != nullptr)
+        bool success;
+        TreeNode* node = heap.ExtractMin(success, steps);
+        if(success)
         {
-            out << " " << node->getKey();
+            out << " " << node->ID;
             tree->deleteNode(node,scene);
             delete node;
         }

@@ -13,10 +13,11 @@ using namespace std;
 GraphWidget::GraphWidget(bool directed, QWidget *parent)
     : QGraphicsView(parent),      
       _NodeIndex(-1),
-      _EdgeIndex(-1),
-      _bDirected(directed),
+      _EdgeIndex(-1),      
       bShift(false),
-      _countSel(0)
+      _bDirected(directed),
+      _countSel(0),
+      _bArrowLabel{false}
 {    
     scene =  new QGraphicsScene(this);
     setScene(scene);
@@ -53,7 +54,8 @@ void GraphWidget::mouseDoubleClickEvent(QMouseEvent *event)
     _Nodes[_NodeIndex] = node;
 
     connect(node, SIGNAL(pressed(GNode*)), this, SLOT(nodePressed(GNode*)));
-    connect(node, SIGNAL(pressed(GNode*)), this, SLOT(nodesConnected(GNode*, GNode*, GEdge*)));
+    //connect(node, SIGNAL(pressed(GNode*)), this, SLOT(nodesConnected(GNode*, GNode*, GEdge*)));
+    connect(node, SIGNAL(moved(GNode*)), this, SLOT(nodeMoved(GNode*)));
 
     emit nodeCreated(node);
 }
@@ -110,6 +112,11 @@ void GraphWidget::nodePressed(GNode* node)
     }
 }
 
+void GraphWidget::nodeMoved(GNode* node)
+{
+    emit nodeChanged(node);
+}
+
 void GraphWidget::resetNodes()
 {
     for(int i=0; i <= _NodeIndex; i++)
@@ -135,6 +142,7 @@ void GraphWidget::connectNodes()
     }
 
     GEdge* edge = new GEdge();
+    edge->showArrow(_bArrowLabel);
     scene->addItem(edge);
 
     QLineF line;
@@ -185,3 +193,7 @@ void GraphWidget::setItemOpacity(int id, int itemType,  bool isHide)
 
 }
 
+void GraphWidget::showArrowLabel()
+{
+    _bArrowLabel = true;
+}

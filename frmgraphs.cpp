@@ -5,15 +5,17 @@
 #include "gnode.h"
 #include "gedge.h"
 #include "afirstsearch.h"
-
+#include "graphs.h"
 
 using namespace std;
 using namespace algorithms;
+using namespace algorithms::graphs;
 
 frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmGraphFS),
-    _bDirected(directed)
+    _bDirected(directed),
+    G{directed}
 {
     ui->setupUi(this);
     widget = new GraphWidget(directed);
@@ -37,7 +39,6 @@ frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
 
 frmGraphFS::~frmGraphFS()
 {
-    disposeGraph();
     delete ui;
 }
 
@@ -54,33 +55,24 @@ void frmGraphFS::errorRaised(int code)
 void frmGraphFS::nodeCreated(GNode* node)
 {
     stringstream data;
+    stringstream out;
 
-    std::cout <<"frmGraphFS::nodeCreated: " << node->getId() << endl;
-    TNode* tnode = new TNode(node->getId());
-    G.push_back(tnode);
-
+    G.addNode(node->getId());
     data << node->getId();
     ui->cmbNodes->addItem(data.str().c_str());
 
-    //TODO: Write to Log.
+    cout << "Node [" << node->getId() << "] was added.";
+    writeLog(out.str());
 }
 
 void frmGraphFS::nodesConnected(GNode* nodeBeg, GNode* nodeEnd, GEdge* edge)
 {
-    std::cout <<"frmGraphFS::nodesConnected: Nodes "
-               << nodeBeg->getId() << ":" << nodeEnd->getId()
-               << " with Edge " << edge->getId()  << endl;
+    stringstream out;
+    cout <<"frmGraphFS::nodesConnected: Nodes "
+        << nodeBeg->getId() << ":" << nodeEnd->getId()
+        << " with Edge " << edge->getId() << " and logitud: " << edge->getLongitud() << endl;
 
-    TNode* nodeB = G[nodeBeg->getId()];
-    TNode* nodeE = G[nodeEnd->getId()];
-
-
-    nodeB->addAdjacentNode(nodeE->getId(), edge->getId());
-
-    if(_bDirected)
-        nodeE->addAdjacentNode(nodeB->getId(), edge->getId(),false);
-    else
-        nodeE->addAdjacentNode(nodeB->getId(), edge->getId());
+    G.linkNodes(nodeBeg->getId(), nodeEnd->getId(), edge->getId(),edge->getLongitud());
 }
 
 
@@ -97,23 +89,6 @@ void frmGraphFS::writeLog(string log)
     ui->txtLogs->setText(data);
 }
 
-void frmGraphFS::disposeGraph()
-{
-    for(unsigned long i=0; i< G.size(); i++)
-    {
-        TNode* n = G[i];
-        if(n != nullptr) delete n;
-    }
-}
-
-void frmGraphFS::disposeTree()
-{
-    for(unsigned long i=0; i< T.size(); i++)
-    {
-        TNode* n = T[i];
-        if(n != nullptr) delete n;
-    }
-}
 
 void frmGraphFS::on_cmdClear_clicked()
 {
@@ -124,37 +99,27 @@ void frmGraphFS::on_cmdBuildTree_clicked()
 {
     AFirstSearch fs;
     stringstream steps;
+    Graph T; //Tree
 
-    if(G.size() <= 0) return;
+    if(G.empty()) return;
 
     int root = ui->cmbNodes->currentIndex();
 
-    if(ui->optBFS->isChecked())
-        fs.BFS(root,G,T,steps);
-    else
-        fs.DFS(root,G,T,steps);
+    if(ui->optBFS->isChecked()) fs.BFS(root,G,T,steps);
+    else                        fs.DFS(root,G,T,steps);
 
-    if(_bDirected && ui->chkDAG->isChecked())
-        fs.checkDAG(G,steps);
+    if(_bDirected && ui->chkDAG->isChecked()) fs.checkDAG(G,steps);
 
+    //ID!=-1 means that is an active Node or Edge.
     widget->resetGraphAppearance(true);
 
-    for(unsigned long i=0; i< T.size(); i++)
-    {
-        TNode* n = nullptr;
-        n = T[i];
-        if(n != nullptr)
-        {
-           widget->setItemOpacity(n->getId(), GITEM_NODE, false);
-           for(int i=0; i< n->sizeOfAdjacent(); i++)
-           {
-               std::pair<int,int> nad = n->getAdjacentOut(i);
-               widget->setItemOpacity(nad.second, GITEM_EDGE, false);
-           }
-        }
-    }
+    for(unsigned long n=0; n< T.countNodes(); n++)
+        if(T[n].ID() != -1)
+           widget->setItemOpacity(T[n].ID(), GITEM_NODE, false);
 
-    disposeTree();
+    for(int e=0; e < T.countEdges(); e++)
+         if(T(e).ID()>=0) widget->setItemOpacity(T(e).ID(), GITEM_EDGE, false);
+
     writeLog(steps.str());
 }
 

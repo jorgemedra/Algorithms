@@ -43,6 +43,7 @@ protected:
 
 signals:
     void pressed(GNode* node);
+    void moved(GNode* node);
 
 public:
     GNode(QGraphicsItem *parent=0);
@@ -58,8 +59,5 @@ public:
     void setAdjacentNode(GNode* node);
     GNode* getAdjacentNode(int index);
     void setEdge(GEdge* edge);
-    //GEdge* getEdge();
-
-
 };
 #endif // GNODE_H

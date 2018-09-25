@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     frmabout.cpp \
     frmstablematching.cpp \
     frmpriorityqueue.cpp \
-    heap.cpp \
     binarytreebalanced.cpp \
     help.cpp \
     graphwidget.cpp \
@@ -26,7 +25,12 @@ SOURCES += main.cpp\
     gnode.cpp \
     gedge.cpp \
     tnode.cpp \
-    afirstsearch.cpp
+    afirstsearch.cpp \
+    frmgraphpath.cpp \
+    pthnode.cpp \
+    measuretool.cpp \
+    graphs.cpp \
+    frmsort.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
@@ -40,13 +44,21 @@ HEADERS  += mainwindow.h \
     gnode.h \
     gedge.h \
     tnode.h \
-    afirstsearch.h
+    afirstsearch.h \
+    frmgraphpath.h \
+    pthnode.h \
+    measuretool.h \
+    graphs.h \
+    frmsort.h \
+    sortalgorithms.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \
     frmpriorityqueue.ui \
     frmgraphs.ui \
-    frmstablematching.ui
+    frmstablematching.ui \
+    frmgraphpath.ui \
+    frmsorts.ui
 
 DISTFILES += \
     Readme.md

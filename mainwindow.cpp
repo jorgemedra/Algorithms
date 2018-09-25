@@ -6,6 +6,8 @@
 #include "frmstablematching.h"
 #include "frmpriorityqueue.h"
 #include "frmgraphs.h"
+#include "frmgraphpath.h"
+#include "frmsort.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,6 +35,14 @@ void MainWindow::on_actionAbout_triggered()
 
     about->setWindowFlags(flags);
     about->show();
+/*
+    MainWindow clone(this);
+    clone.setWindowTitle("My Title");
+    QString s1 = this->windowTitle();
+    QString s2 = clone.windowTitle();
+
+    return;
+    */
 }
 
 void MainWindow::on_actionMain_Documentation_triggered()
@@ -48,9 +58,17 @@ void MainWindow::on_actionStable_Matching_triggered()
     wnd->showMaximized();
 }
 
-void MainWindow::on_actionPriority_Queue_triggered()
+void MainWindow::on_actionPriority_Queue_By_Min_triggered()
 {
     frmPriorityQueue* wnd = new frmPriorityQueue(this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionPriority_Queue_By_Max_triggered()
+{
+    frmPriorityQueue* wnd = new frmPriorityQueue(this,false);
 
     ui->mdiArea->addSubWindow(wnd);
     wnd->showMaximized();
@@ -67,6 +85,30 @@ void MainWindow::on_actionBSD_triggered()
 void MainWindow::on_actionBFS_DFS_directed_triggered()
 {
     frmGraphFS* wnd = new frmGraphFS(true, this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionShorter_Path_undirected_triggered()
+{
+    frmGraphPath* wnd = new frmGraphPath(false, this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionShorter_Path_directed_triggered()
+{
+    frmGraphPath* wnd = new frmGraphPath(true, this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionSorting_triggered()
+{
+    frmSort* wnd = new frmSort(this);
 
     ui->mdiArea->addSubWindow(wnd);
     wnd->showMaximized();

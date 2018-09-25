@@ -19,9 +19,14 @@ GEdge::GEdge(QGraphicsItem* parent):
     _nEnd(nullptr),
     _bArrow(false),
     _upAL(nullptr),
-    _dnAL(nullptr)
+    _dnAL(nullptr),
+    _Longitud(0),
+    _bLabelArw(false)
 {
     setPen(penBlack);
+    _label.setParentItem(this);
+    _label.setZValue(10);
+    _label.setHtml("0");
 }
 
 void GEdge::setShade(bool shade)
@@ -49,9 +54,19 @@ int GEdge::getId()
     return _id;
 }
 
+long GEdge::getLongitud()
+{
+    return _Longitud;
+}
+
 void GEdge::showArrow(bool value)
 {
     _bArrow = value;
+}
+
+void GEdge::showLabel(bool value)
+{
+    _bLabelArw = value;
 }
 
 void GEdge::setNodes(GNode* nBeg, GNode* nEnd)
@@ -65,7 +80,8 @@ void GEdge::setNodes(GNode* nBeg, GNode* nEnd)
     _upAL->setLine(0,0,0,0);
     _dnAL->setLine(0,0,0,0);
 
-    updateArrow(_bArrow);
+    updateArrow();
+    updateLabel();
 }
 
 GNode* GEdge::getNode(bool isBegin)
@@ -79,11 +95,11 @@ void GEdge::updateByNode()
     line.setLine(_nBegin->pos().x() + (GNODE_WIDTH/2), _nBegin->pos().y() + (GNODE_WIDTH/2),
                  _nEnd->pos().x() + (GNODE_WIDTH/2), _nEnd->pos().y() + (GNODE_WIDTH/2));
     setLine(line);
-    updateArrow(_bArrow);
+    updateArrow();
+    updateLabel();
 }
 
-
-void GEdge::updateArrow(bool showArrow)
+void GEdge::updateArrow()
 {
     qreal PI = 3.14159265;
     qreal xB=0, xE=0;
@@ -94,46 +110,94 @@ void GEdge::updateArrow(bool showArrow)
     qreal aUXE=0, aUYE=0, aDXE=0, aDYE=0;
     qreal angAux=0;
 
-    _upAL->setVisible(showArrow);
-    _dnAL->setVisible(showArrow);
+    _upAL->setVisible(_bArrow);
+    _dnAL->setVisible(_bArrow);
 
-    if(!showArrow) return;
+    if(_bArrow)
+    {
+        xB = _nBegin->pos().x() + (GNODE_WIDTH/2);
+        xE = _nEnd->pos().x() + (GNODE_WIDTH/2);
+        yB = _nBegin->pos().y() + (GNODE_WIDTH/2);
+        yE = _nEnd->pos().y() + (GNODE_WIDTH/2);
+
+        dX = abs(xB - xE);
+        dY = abs(yB - yE);
+        dH = sqrt(pow(dX,2) + pow(dY,2));
+
+        angR = dY/dX;
+
+        if(xE >= xB && yE >= yB ) //C1
+            angD = atan(angR) * (180/PI);
+        else if(xE >= xB && yE < yB ) //C2
+            angD = 360 -(atan(angR) * (180/PI));
+        else if(xE < xB && yE >= yB ) //C3
+            angD =  180 - (atan(angR) * (180/PI));
+        else if(xE < xB && yE < yB ) //C4
+            angD = 180 + (atan(angR) * (180/PI));
+
+        aXB = (dH - (GNODE_WIDTH/2)) * cos(angD*PI/180) + xB;
+        aYB = (dH - (GNODE_WIDTH/2)) * sin(angD*PI/180) + yB;
+
+        angAux = angD - 180 + ANG_ARROW;
+        aUXE = RAD_ARROW * cos(angAux*PI/180) + aXB;
+        aUYE = RAD_ARROW * sin(angAux*PI/180) + aYB;
+
+        angAux = angD - 180 - ANG_ARROW;
+        aDXE = RAD_ARROW * cos(angAux*PI/180) + aXB;
+        aDYE = RAD_ARROW * sin(angAux*PI/180) + aYB;
+
+
+        QLineF lineU;
+        lineU.setLine(aXB, aYB, aUXE, aUYE);
+        _upAL->setLine(lineU);
+        _dnAL->setLine(aXB, aYB, aDXE, aDYE);
+    }
+}
+
+void GEdge::updateLabel()
+{
+    qreal dx, dy, xl, yl;
+    qreal xB, yB, xE, yE;
+
+    _label.setVisible(_bLabelArw);
+    if(!_bLabelArw) return;
 
     xB = _nBegin->pos().x() + (GNODE_WIDTH/2);
     xE = _nEnd->pos().x() + (GNODE_WIDTH/2);
     yB = _nBegin->pos().y() + (GNODE_WIDTH/2);
     yE = _nEnd->pos().y() + (GNODE_WIDTH/2);
 
-    dX = abs(xB - xE);
-    dY = abs(yB - yE);
-    dH = sqrt(pow(dX,2) + pow(dY,2));
+    xB <= xE ? dx = abs(xE - xB):dx = abs(xB - xE);
+    yB <= yE ? dy = abs(yE - yB):dy = abs(yB - yE);
 
-    angR = dY/dX;
+    dx > 0 ? dx = dx/2: dx = 0;
+    dy > 0 ? dy = dy/2: dy = 0;
+
+    _Longitud = (long) sqrt( ( pow(dx,2) + pow(dy,2) ) );
 
     if(xE >= xB && yE >= yB ) //C1
-        angD = atan(angR) * (180/PI);
+    {
+        xl = xB + dx;
+        yl = yB + dy;
+    }
     else if(xE >= xB && yE < yB ) //C2
-        angD = 360 -(atan(angR) * (180/PI));
+    {
+        xl = xB + dx;
+        yl = yB - dy;
+    }
     else if(xE < xB && yE >= yB ) //C3
-        angD =  180 - (atan(angR) * (180/PI));
+    {
+        xl = xB - dx;
+        yl = yB + dy;
+    }
     else if(xE < xB && yE < yB ) //C4
-        angD = 180 + (atan(angR) * (180/PI));
+    {
+        xl = xB - dx;
+        yl = yB - dy;
+    }
 
-    aXB = (dH - (GNODE_WIDTH/2)) * cos(angD*PI/180) + xB;
-    aYB = (dH - (GNODE_WIDTH/2)) * sin(angD*PI/180) + yB;
-
-    angAux = angD - 180 + ANG_ARROW;
-    aUXE = RAD_ARROW * cos(angAux*PI/180) + aXB;
-    aUYE = RAD_ARROW * sin(angAux*PI/180) + aYB;
-
-    angAux = angD - 180 - ANG_ARROW;
-    aDXE = RAD_ARROW * cos(angAux*PI/180) + aXB;
-    aDYE = RAD_ARROW * sin(angAux*PI/180) + aYB;
-
-
-    QLineF lineU;
-    lineU.setLine(aXB, aYB, aUXE, aUYE);
-    _upAL->setLine(lineU);
-    _dnAL->setLine(aXB, aYB, aDXE, aDYE);
-
+    QString value;
+    _label.setX(xl);
+    _label.setY(yl);
+    _label.setHtml(value.setNum(_Longitud));
 }

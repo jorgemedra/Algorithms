@@ -6,23 +6,17 @@
 #include <QWidget>
 #include <QGraphicsScene>
 
-using namespace  collections;
-
 namespace Ui {
 class frmPriorityQueue;
 }
-
-
 
 class frmPriorityQueue : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit frmPriorityQueue(QWidget *parent = 0);
+    explicit frmPriorityQueue(QWidget *parent = 0, bool byMin=true);
     ~frmPriorityQueue();
-
-
 
 private slots:
     void on_cmdAddItem_clicked();
@@ -36,16 +30,14 @@ private:
 
     QGraphicsScene* scene;
 
-    Heap* heap;
+    collections::Heap<TreeNode*> heap;
     BinaryTreeBalanced* tree;
     int itemSelected;
 
     void drawTable();
     void drawTree();
 
-    void writeLog(string log);
-
-
+    void writeLog(std::string log);
 };
 
 #endif // FRMPRIORITYQUEUE_H

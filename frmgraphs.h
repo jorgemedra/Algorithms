@@ -4,7 +4,8 @@
 #include <QWidget>
 #include <vector>
 #include "graphwidget.h"
-#include "tnode.h"
+//#include "tnode.h"
+#include "graphs.h"
 
 namespace Ui {
 class frmGraphFS;
@@ -33,15 +34,10 @@ private:
     Ui::frmGraphFS *ui;
 
     GraphWidget *widget;
-    std::vector<TNode*> G; //Graph
-    std::vector<TNode*> T; //Tree
+    algorithms::graphs::Graph G; //Graph
 
     bool _bDirected;
-
     void writeLog(string log);
-    void disposeGraph();
-    void disposeTree();
-
 };
 
 #endif // FRMGRAPHFS_H

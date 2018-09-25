@@ -100,6 +100,7 @@ void GNode::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         GEdge* edge = *it;
         edge->updateByNode();
     }
+    emit moved(this);
 }
 
 void GNode::reset()

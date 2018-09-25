@@ -41,7 +41,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#1747c9;&quot;&gt;Algorithms&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#1747c9; vertical-align:sub;&quot;&gt;V0.1 (November 3th, 2017)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#1747c9;&quot;&gt;Algorithms&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#1747c9; vertical-align:sub;&quot;&gt;V1 (September, 2018)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>

@@ -1,5 +1,6 @@
 #include "tnode.h"
 
+using namespace std;
 
 int  TNode::getId()
 {
@@ -16,24 +17,14 @@ int TNode::getParent()
     return _parent;
 }
 
-void TNode::setActive(bool value)
-{
-    _bActive = value;
-}
-
-bool TNode::isActive()
-{
-    return _bActive;
-}
-
 int TNode::sizeOfAdjacent()
 {
     return _adjsOut.size();
 }
 
-void TNode::addAdjacentNode(int node, int edge, bool isOut)
+void TNode::addAdjacentNode(int node, int edge, long lenght, bool isOut)
 {
-    std::pair<int,int> tnode(node, edge);
+    tuple<int,int,int> tnode(node, edge, lenght);
     if(isOut)
         _adjsOut.push_back(tnode);
     else
@@ -48,18 +39,18 @@ int TNode::getSizeOfAdjacentNodes(bool incomming)
     return _adjsOut.size();
 }
 
-std::pair<int,int> TNode::getAdjacentOut(int index)
+std::tuple<int,int,long> TNode::getAdjacentOut(int index)
 {
 
-    if(index >= _adjsOut.size() || index < 0) return std::make_pair(-1, -1);
+    if(index >= _adjsOut.size() || index < 0) return std::make_tuple(-1, -1, 1L);
 
     return _adjsOut[index];
 }
 
 
-std::pair<int,int> TNode::getAdjacentIn(int index)
+std::tuple<int,int, long> TNode::getAdjacentIn(int index)
 {
-    if(index >= _adjsIn.size() || index < 0) return std::make_pair(-1, -1);
+    if(index >= _adjsIn.size() || index < 0) return std::make_tuple(-1, -1, 1L);
 
     return _adjsIn[index];
 }

@@ -10,17 +10,17 @@
 
 using namespace collections;
 
-BinaryTreeBalanced::BinaryTreeBalanced(Heap* heap)
+BinaryTreeBalanced::BinaryTreeBalanced(Heap<TreeNode*>& heap):
+    heap{heap}
 {
-    this->heap = heap;
 }
 
 int BinaryTreeBalanced::calculateLevel(int position)
 {
     int lvl=0, min=0,max=0;
-    if(position < 1 || position > heap->size()) return 0;
+    if(position < 1 || position > heap.size()) return 0;
 
-    for(lvl=0; lvl <= heap->levels(); lvl++)
+    for(lvl=0; lvl <= heap.levels(); lvl++)
     {
         min= pow(2,lvl);
         max = 2*min - 1;
@@ -42,20 +42,20 @@ void BinaryTreeBalanced::drawNode(int hPosition, QGraphicsScene* scene)
     QPen   blackPen(Qt::black);
     QPen   bluePen(Qt::blue);
 
-    if(hPosition < 1 || hPosition > heap->size()) return;
+    if(hPosition < 1 || hPosition > heap.size()) return;
 
     if(hPosition > 1)
     {
         aLevel = calculateLevel(hPosition);
-        dLevel = (heap->levels()-1) - aLevel;
-        parent = (TreeNode*)heap->operator [](hPosition/2);
+        dLevel = (heap.levels()-1) - aLevel;
+        parent = heap[hPosition/2];
         parentX = parent->X;
         parentY = parent->Y;
         //cout << "Parent: " << hPosition/2 << " aLevel: " << aLevel << " dLevel: " << dLevel << endl;
     }
 
     //1.- Calculate Coordinates
-    node = (TreeNode*)heap->operator [](hPosition);
+    node = heap[hPosition];
 
     bool isLeftNode = ((hPosition%2) == 0)? true:false;
     int vSpace = aLevel * VerticalSpaceNode;
@@ -83,13 +83,13 @@ void BinaryTreeBalanced::drawNode(int hPosition, QGraphicsScene* scene)
     }
 
     node->circle->setPos(node->CX, node->CY);
-    node->label->setText(QString::number(node->getKey()));
+    node->label->setText(QString::number(node->ID));
 
     if(aLevel<=0)
         node->edge->setVisible(false);
     else
     {
-        node->edge->setLine(node->X,node->NorhtY, parent->X,parent->SouthY);
+        node->edge->setLine(node->X, node->NorhtY, parent->X, parent->SouthY);
         node->edge->setVisible(true);
     }
 
