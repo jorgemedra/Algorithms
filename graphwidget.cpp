@@ -3,21 +3,23 @@
 #include <QMouseEvent>
 #include <QObject>
 
-
 #include<cstdlib>
 #include<iostream>
 #include<sstream>
 
 using namespace std;
+using namespace graphs;
+using namespace graphs::ui;
 
 GraphWidget::GraphWidget(bool directed, QWidget *parent)
     : QGraphicsView(parent),      
       _NodeIndex(-1),
       _EdgeIndex(-1),      
       bShift(false),
-      _bDirected(directed),
+      _bDirected(directed),      
+      _bArrowLabel{false},
       _countSel(0),
-      _bArrowLabel{false}
+      G{}
 {    
     scene =  new QGraphicsScene(this);
     setScene(scene);
@@ -45,7 +47,8 @@ void GraphWidget::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
 
-    _NodeIndex++;
+    _NodeIndex = G.createNode(); //Since V2.0 Create the new Vertex in the graph
+
     GNode* node = new GNode();
     scene->addItem(node);
 
@@ -54,10 +57,10 @@ void GraphWidget::mouseDoubleClickEvent(QMouseEvent *event)
     _Nodes[_NodeIndex] = node;
 
     connect(node, SIGNAL(pressed(GNode*)), this, SLOT(nodePressed(GNode*)));
-    //connect(node, SIGNAL(pressed(GNode*)), this, SLOT(nodesConnected(GNode*, GNode*, GEdge*)));
-    connect(node, SIGNAL(moved(GNode*)), this, SLOT(nodeMoved(GNode*)));
+    //connect(node, SIGNAL(moved(GNode*)), this, SLOT(nodeMoved(GNode*)));
 
-    emit nodeCreated(node);
+   emit nodeCreated(node);
+
 }
 
 void GraphWidget::keyPressEvent(QKeyEvent * event)
@@ -112,9 +115,14 @@ void GraphWidget::nodePressed(GNode* node)
     }
 }
 
-void GraphWidget::nodeMoved(GNode* node)
+//void GraphWidget::nodeMoved(GNode* node)
+//{
+//    //emit nodeChanged(node);
+//}
+
+void GraphWidget::edgeLengthChanged(int id, long newL)
 {
-    emit nodeChanged(node);
+    G.updateEdgeLength(id,newL);
 }
 
 void GraphWidget::resetNodes()
@@ -149,7 +157,9 @@ void GraphWidget::connectNodes()
     line.setLine(beg->pos().x() + (GNODE_WIDTH/2), beg->pos().y() + (GNODE_WIDTH/2),
                  end->pos().x() + (GNODE_WIDTH/2), end->pos().y() + (GNODE_WIDTH/2));
 
-    _EdgeIndex++;
+    //_EdgeIndex++;
+    _EdgeIndex = G.connectNodes(beg->getId(),end->getId(),edge->getLongitud(),_bDirected);
+
     edge->setId(_EdgeIndex);
     edge->setLine(line);
     edge->setZValue(-1);
@@ -163,7 +173,7 @@ void GraphWidget::connectNodes()
 
     _Edges[_EdgeIndex] = edge;
 
-    nodesConnected(beg,end,edge);
+    //nodesConnected(beg,end,edge);
     resetNodes();
 }
 
@@ -176,14 +186,14 @@ void GraphWidget::resetGraphAppearance(bool hided)
         setItemOpacity(i, GITEM_EDGE, hided);
 }
 
-void GraphWidget::setItemOpacity(int id, int itemType,  bool isHide)
+void GraphWidget::setItemOpacity(int id, int itemType,  bool show)
 {
     QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect();
 
-    if(isHide)
-        effect->setOpacity(0.25);
-    else
+    if(show)
         effect->setOpacity(1);
+    else
+        effect->setOpacity(0.25);
 
     if(itemType == GITEM_NODE && (id >=0 && id <= _NodeIndex))
         _Nodes[id]->setGraphicsEffect(effect);
@@ -196,4 +206,8 @@ void GraphWidget::setItemOpacity(int id, int itemType,  bool isHide)
 void GraphWidget::showArrowLabel()
 {
     _bArrowLabel = true;
+}
+
+const Graph& GraphWidget::Graph(){
+    return G;
 }

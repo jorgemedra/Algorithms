@@ -9,13 +9,13 @@
 
 using namespace std;
 using namespace algorithms;
-using namespace algorithms::graphs;
+using namespace graphs;
+using namespace graphs::ui;
 
 frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::frmGraphFS),
-    _bDirected(directed),
-    G{directed}
+    _bDirected(directed)
 {
     ui->setupUi(this);
     widget = new GraphWidget(directed);
@@ -34,7 +34,6 @@ frmGraphFS::frmGraphFS(bool directed, QWidget *parent) :
 
     connect(widget, SIGNAL(errorRaised(int)), this, SLOT(errorRaised(int)));
     connect(widget, SIGNAL(nodeCreated(GNode*)), this, SLOT(nodeCreated(GNode*)));
-    connect(widget, SIGNAL(nodesConnected(GNode*, GNode*, GEdge*)), this, SLOT(nodesConnected(GNode*, GNode*, GEdge*)));
 }
 
 frmGraphFS::~frmGraphFS()
@@ -52,19 +51,20 @@ void frmGraphFS::errorRaised(int code)
     std::cout <<"frmGraphFS::errorRaised: " << code << endl;
 }
 
+
 void frmGraphFS::nodeCreated(GNode* node)
 {
     stringstream data;
     stringstream out;
 
-    G.addNode(node->getId());
+    //G.addNode(node->getId());
     data << node->getId();
     ui->cmbNodes->addItem(data.str().c_str());
 
     cout << "Node [" << node->getId() << "] was added.";
     writeLog(out.str());
 }
-
+/*
 void frmGraphFS::nodesConnected(GNode* nodeBeg, GNode* nodeEnd, GEdge* edge)
 {
     stringstream out;
@@ -74,7 +74,7 @@ void frmGraphFS::nodesConnected(GNode* nodeBeg, GNode* nodeEnd, GEdge* edge)
 
     G.linkNodes(nodeBeg->getId(), nodeEnd->getId(), edge->getId(),edge->getLongitud());
 }
-
+*/
 
 /*********************
  *      Actions      *
@@ -97,30 +97,31 @@ void frmGraphFS::on_cmdClear_clicked()
 
 void frmGraphFS::on_cmdBuildTree_clicked()
 {
-    AFirstSearch fs;
-    stringstream steps;
-    Graph T; //Tree
+        AFirstSearch fs;
+        stringstream steps;
 
-    if(G.empty()) return;
+        if(widget->Graph().empty()) return;
 
-    int root = ui->cmbNodes->currentIndex();
+        Graph T{widget->Graph()}; //Clone the original Graph to get the Tree
 
-    if(ui->optBFS->isChecked()) fs.BFS(root,G,T,steps);
-    else                        fs.DFS(root,G,T,steps);
+        int root = ui->cmbNodes->currentIndex();
 
-    if(_bDirected && ui->chkDAG->isChecked()) fs.checkDAG(G,steps);
+        if(ui->optBFS->isChecked()) fs.BFS(root,T,steps);
+        else                        fs.DFS(root,T,steps);
 
-    //ID!=-1 means that is an active Node or Edge.
-    widget->resetGraphAppearance(true);
+        //ID!=-1 means that is an active Node or Edge.
+        widget->resetGraphAppearance(true);
 
-    for(unsigned long n=0; n< T.countNodes(); n++)
-        if(T[n].ID() != -1)
-           widget->setItemOpacity(T[n].ID(), GITEM_NODE, false);
+        for(long n=0; n< T.countNodes(); n++)
+            widget->setItemOpacity(T[n].ID(), GITEM_NODE, T[n].isEnabled());
 
-    for(int e=0; e < T.countEdges(); e++)
-         if(T(e).ID()>=0) widget->setItemOpacity(T(e).ID(), GITEM_EDGE, false);
+        for(long e=0; e < T.countEdges(); e++)
+             widget->setItemOpacity(T(e).ID(), GITEM_EDGE, T(e).isEnabled());
 
-    writeLog(steps.str());
+        if(_bDirected && ui->chkDAG->isChecked()) fs.checkDAG(T,steps);
+
+        writeLog(steps.str());
+
 }
 
 

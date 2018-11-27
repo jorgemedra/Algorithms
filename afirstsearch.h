@@ -2,8 +2,9 @@
 #define AFIRSTSEARCH_H
 
 //#include "tnode.h"
-#include "graphs.h"
+#include"graphs.h"
 #include <sstream>
+#include <queue>
 
 //using namespace std;
 
@@ -12,22 +13,21 @@ namespace algorithms
     class AFirstSearch
     {
 
-        void DFS(int root, std::vector<short>& explored,
+        void DFS(long root, std::vector<short>& explored,
                  std::vector<int>& parents,
-                 algorithms::graphs::Graph &G,
-                 algorithms::graphs::Graph &T,
+                 graphs::Graph &T,
                  std::stringstream &steps );
+
+        bool checkDAG(graphs::Graph &G, std::queue<long>& topologic , std::stringstream &steps);
+
     public:
         AFirstSearch();
 
-        void BFS(int root, algorithms::graphs::Graph &G,
-                           algorithms::graphs::Graph &T,
-                 std::stringstream &steps, bool checkBipartitenes=true);
-        void DFS(int root, algorithms::graphs::Graph &G,
-                           algorithms::graphs::Graph &T,
-                 std::stringstream &steps);
+        void BFS(long root, graphs::Graph &T, std::stringstream &steps, bool checkBipartitenes=true);
+        void DFS(long root, graphs::Graph &T, std::stringstream &steps);
 
-        void checkDAG(algorithms::graphs::Graph &G, std::stringstream &steps);
+        void checkDAG(graphs::Graph &G, std::stringstream &steps);
+
     };
 }
 

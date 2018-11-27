@@ -4,6 +4,13 @@
 #
 #-------------------------------------------------
 
+#Every time that i update XCode, the next path change:
+#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
+#so, this will provoke link compilation and link problems.
+#
+#For this reason i stablished the ID of SDK that is used at the moment, using the macro QMAKE_MAC_SDK:
+QMAKE_MAC_SDK = macosx10.14
+
 QT       += core gui
 QT       += webenginewidgets
 
@@ -24,12 +31,9 @@ SOURCES += main.cpp\
     frmgraphs.cpp \
     gnode.cpp \
     gedge.cpp \
-    tnode.cpp \
     afirstsearch.cpp \
     frmgraphpath.cpp \
-    pthnode.cpp \
     measuretool.cpp \
-    graphs.cpp \
     frmsort.cpp
 
 HEADERS  += mainwindow.h \
@@ -43,10 +47,8 @@ HEADERS  += mainwindow.h \
     frmgraphs.h \
     gnode.h \
     gedge.h \
-    tnode.h \
     afirstsearch.h \
     frmgraphpath.h \
-    pthnode.h \
     measuretool.h \
     graphs.h \
     frmsort.h \

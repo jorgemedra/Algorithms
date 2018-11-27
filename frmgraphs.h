@@ -23,18 +23,16 @@ public slots:
 
     void errorRaised(int code);
     void nodeCreated(GNode* node);
-    void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
+    //void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
 
 private slots:
     void on_cmdBuildTree_clicked();
-
     void on_cmdClear_clicked();
 
 private:
     Ui::frmGraphFS *ui;
 
-    GraphWidget *widget;
-    algorithms::graphs::Graph G; //Graph
+    graphs::ui::GraphWidget *widget;
 
     bool _bDirected;
     void writeLog(string log);

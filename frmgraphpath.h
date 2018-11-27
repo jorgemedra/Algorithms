@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <vector>
 #include "graphwidget.h"
-#include "pthnode.h"
+#include "graphs.h"
 
 namespace Ui {
 class frmGraphPath;
@@ -21,17 +21,16 @@ public:
 public slots:
 
     void errorRaised(int code);
-    void nodeCreated(GNode* node);
-    void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
-    void nodeMoved(GNode* node);
+    //void nodeCreated(GNode* node);
+    //void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
+    //void nodeMoved(GNode* node);
 
 private:
     Ui::frmGraphPath *ui;
 
-    GraphWidget *widget;
+    graphs::ui::GraphWidget *widget;
 
     bool _bDirected;
-    std::vector<PathNode> G; //Graph
 
 };
 

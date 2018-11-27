@@ -5,7 +5,7 @@
 
 using namespace algorithms;
 using namespace std;
-using namespace algorithms::graphs;
+using namespace graphs;
 
 AFirstSearch::AFirstSearch()
 {
@@ -21,28 +21,25 @@ AFirstSearch::AFirstSearch()
  * @param steps The log output.
  * @param checkBipartitenes A flag which indicates if it performes the Bipartitenes validation (True) or not (false).
  */
-void AFirstSearch::BFS(int root, Graph &G, Graph &T, stringstream &steps,bool checkBipartitenes)
+void AFirstSearch::BFS(long root, Graph &T, stringstream &steps, bool checkBipartitenes)
 {
-    //queue<TNode*> levelQueue;
-    queue<Node> levelQueue;
-    T.clear();
+    queue<long> levelQueue;
+    vector<bool> discovey(T.countNodes(),false);
+    vector<int> parents(T.countNodes(), -1);
+    vector<int> layerByNode(T.countNodes(), -1);
+    vector<bool> isOdd(T.countNodes(), false);
 
     steps << "Tree BFS:" << endl;
-    if(G.empty())
+    if(T.empty())
     {
         steps << "\tError: It's not possible to build a Tree from an empty Graphic." << endl;
         return;
     }
 
-    vector<bool> discovey(G.countNodes(),false);
-    vector<int> parents(G.countNodes(), -1);
-    vector<int> layerByNode(G.countNodes(), -1);
-    vector<bool> isOdd(G.countNodes(), false);
+    T.disableAll();
 
-    T.clear();
-
-    T.addNode(root);
-    levelQueue.push(G[root]);
+    T[root].enable(true);
+    levelQueue.push(root);
     discovey[root] = true;
     parents[root] = -1;
     layerByNode[root] = 0; //The root node is layer 0.
@@ -50,40 +47,40 @@ void AFirstSearch::BFS(int root, Graph &G, Graph &T, stringstream &steps,bool ch
 
     steps << "\tStart to build Tree with BFS, from node [" << root << "]" << endl;
 
-    while(!levelQueue.empty())
+    while(!levelQueue.empty()) //T(n)
     {
-        Node node = levelQueue.front();
-        int adjNodes = node.countNodesAdj();
+        long node = levelQueue.front();
+        vector<std::pair<long,long>> adjNodes = T[node].getAdyacentNodes();
         levelQueue.pop();
 
         //Check childs
-        for(int i=0; i < adjNodes; i++)
+        for(std::pair<long,long> p : adjNodes )
         {
-            std::pair<int,int> adj = node.nodeAdj(i);
-            int idNode_ = adj.first;
-            int idEdge_ = adj.second;
+            long idNode_ = p.first;
+            long idEdge_ = p.second;
 
+            // T(n-1), where n -1 represents all the possible nodes adyacentes.
+            //But it is important to considered that each node wll be procecesd only if it has not been disovered
             if(!discovey[idNode_])
             {
-                steps << "\t\tNew Node [" << idNode_ << "] discovery from Node [" << node.ID() << "] with Edge (" <<  idEdge_ << ")" << endl;
+                steps << "\t\tNew Node [" << idNode_ << "] discovery from Node [" << node << "] with Edge (" <<  idEdge_ << ")" << endl;
 
-                T.addNode(idNode_);
-                T.linkNodes(node.ID(), idNode_, idEdge_, G(idEdge_).length());
-                parents[idNode_] = node.ID();
-                levelQueue.push(G[idNode_]); //Add the node into the queue (Adding to one level upper)..
+                T[idNode_].enable(true);
+                T(idEdge_).enable(true);
+                parents[idNode_] = node;
+                levelQueue.push(idNode_); //Add the node into the queue (Adding to one level upper)..
                 discovey[idNode_] = true;
 
-                layerByNode[idNode_] = layerByNode[node.ID()] + 1; //The new child discovered has a upper level.
-                isOdd[idNode_] = !isOdd[node.ID()]; //The child must be the opposit of its parent (Odd or Even).
+                layerByNode[idNode_] = layerByNode[node] + 1; //The new child discovered has a upper level.
+                isOdd[idNode_] = !isOdd[node]; //The child must be the opposit of its parent (Odd or Even).
             }
             else
             {
-                if(!checkBipartitenes && isOdd[idNode_] == isOdd[node.ID()])
-                    steps << "\t\t**The edge with nodes [" << idNode_ << "] and [" << node.ID() << "] are not allowing the Graph to comply with the Bipartiteness propertie.**" << endl;
+                if(!checkBipartitenes && isOdd[idNode_] == isOdd[node])
+                    steps << "\t\t**The edge with nodes [" << idNode_ << "] and [" << node << "] are not allowing the Graph to comply with the Bipartiteness propertie.**" << endl;
             }
         }
     }
-
 }
 
 /**
@@ -93,22 +90,24 @@ void AFirstSearch::BFS(int root, Graph &G, Graph &T, stringstream &steps,bool ch
  * @param T The resulting tree.
  * @param steps The log output.
  */
-void AFirstSearch::DFS(int root, Graph &G, Graph &T, stringstream &steps)
+void AFirstSearch::DFS(long root, Graph &T, stringstream &steps)
 {
+
     steps << "Tree DFS:" << endl;
-    if(G.empty())
+    if(T.empty())
     {
         steps << "\tError: It's not possible to build a Tree from an empty Graphic." << endl;
         return;
     }
 
-    T.clear();
+    T.disableAll();
     steps << "\tStart to build Tree with DFS, from node [" << root << "]" << endl;
 
-    vector<short> explored(G.countNodes(),0);
-    vector<int> parents(G.countNodes(),-1);
+    vector<short> explored(T.countNodes(),0);
+    vector<int> parents(T.countNodes(),-1);
 
-    DFS(root, explored, parents, G, T, steps); //recursive function to replace a stack structure, use the call stack
+    DFS(root, explored, parents, T, steps); //recursive function to replace a stack structure, use the call stack
+
 }
 
 /**
@@ -121,26 +120,27 @@ void AFirstSearch::DFS(int root, Graph &G, Graph &T, stringstream &steps)
  * @param T The resulting tree.
  * @param steps The log output.
  */
-void AFirstSearch::DFS(int root, vector<short>& explored, vector<int>& parents,
-                       Graph &G, Graph &T, stringstream &steps )
+void AFirstSearch::DFS(long root, vector<short>& explored, vector<int>& parents,
+                       Graph &T, stringstream &steps )
 {
-    T.addNode(G[root].ID());
-    explored[G[root].ID()] = 1; //explored
 
-    steps << "\t\tNew Node [" << G[root].ID() << "] explored from Parent Node [" << parents[G[root].ID()] << "]" << endl;
+    T[root].enable(true);
+    explored[root] = 1; //explored
 
-    for(int i=0; i< G[root].countNodesAdj(); i++)
+    steps << "\t\tNew Node [" << root << "] explored from Parent Node [" << parents[root] << "]" << endl;
+
+    Node rv = T[root];
+    vector<pair<long,long>>adj = rv.getAdyacentNodes();
+    for(pair<long,long> vAd : adj)
     {
-        std::pair<int,int> adj = G[root].nodeAdj(i,false);
-
-        int idNode_ = adj.first;
-        int idEdge_ = adj.second;
+        int idNode_ = vAd.first;
+        int idEdge_ = vAd.second;
 
         if(!explored[idNode_])
         {
             parents[idNode_] = root;
-            DFS(idNode_, explored, parents, G, T, steps);
-            T.linkNodes(G[root].ID(), idNode_, idEdge_, G(idEdge_).length());
+            DFS(idNode_, explored, parents, T, steps);
+            T(idEdge_).enable(true);
         }
     }
 }
@@ -159,89 +159,59 @@ void AFirstSearch::checkDAG(Graph &G, stringstream &steps)
 {
     steps << "Checking Directed Acyclic Graph (DGA) propertie:" << endl;
 
-    vector<Node> Gc = G.Nodes();
-    vector<int> incommingCount(G.countNodes(),0);
-    queue<int> topologic;
+    queue<long> topologic;
 
-    for(int i=0; i < (int)G.countNodes(); i++)
-        incommingCount[i] = Gc[i].countNodesAdj(true);
-        //incommingCount[i] = Gc[i].nodeAdj(i,true).first;
-
-    //Check the DAG property
-    bool bContinue;
-    do
+    if(checkDAG(G,topologic,steps))
     {
-        bContinue = false;
-
-        //if(G.countNodes() > 1)
-        if(Gc.size() > 1)
+        steps << "\tThis graph meets the DAG property and its topologyc founded is:" << endl
+              << "\t\t[ ";
+        while(!topologic.empty())
         {
-            stack<int> nodesToRemove;
-            //queue<int> nodesToUpdate;
-
-            //Look for a node without incomming nodes.
-            for(size_t i=0; i< Gc.size(); i++)
-            {
-                if(incommingCount[Gc[i].ID()] <= 0)
-                {
-                    topologic.push(Gc[i].ID());   //Add the node Id to the topologic.
-                    steps << "\tNode found without incomming node [" << Gc[i].ID() << "] "
-                          << "was added at topolic." << endl;
-
-                    bContinue = true;
-                    nodesToRemove.push(i);
-                }
-            }
-
-            //Remove Node from the graph
-            while(!nodesToRemove.empty())
-            {
-                int index = nodesToRemove.top();
-                nodesToRemove.pop();
-
-                //Update the incomming node adjacentes.
-                for(int j=0; j< Gc[index].countNodesAdj(); j++)
-                {
-                    int idAdj = Gc[index].nodeAdj(j).first;
-                    incommingCount[idAdj]--;
-                }
-                Gc.erase(Gc.begin() + index);
-            }
-
-            if(!bContinue)
-            {
-                steps << "\tThis graph desn´t meet the DAG property because has been found a cicle betwen nodes:" << endl
-                      << "\t\t[ ";
-                for(size_t i=0; i<Gc.size(); i++)
-                    steps << Gc[i].ID() << " ";
-                steps << "]" << endl;
-
-                steps << "\tThis was the topologic that could be detected before found the cycle:" << endl
-                      << "\t\t[ ";
-                while(!topologic.empty())
-                {
-                    steps << topologic.front() << " ";
-                    topologic.pop();
-                }
-                steps << "]" << endl;
-            }
+            steps << topologic.front() << " ";
+            topologic.pop();
         }
-        else if(topologic.size() > 0)
+        steps << "]" << endl;
+    }
+    else
+    {
+        vector<long> vrtxs = G.NodeKeys();
+
+        steps << "\tThis graph doesn´t meet the DAG property because has been found a cicle betwen nodes:" << endl
+              << "\t\t[ ";
+
+        for(long k : vrtxs)
+            steps << k << " ";
+        steps << "]" << endl;
+
+        steps << "\tThis was the topologic that could be detected before found the cycle:" << endl
+              << "\t\t[ ";
+        while(!topologic.empty())
         {
-            topologic.push(Gc[0].ID());
-
-            steps << "\tThis graph meets the DAG property and its topologyc founded is:" << endl
-                  << "\t\t[ ";
-            while(!topologic.empty())
-            {
-                steps << topologic.front() << " ";
-                topologic.pop();
-            }
-            steps << "]" << endl;
+            steps << topologic.front() << " ";
+            topologic.pop();
         }
-        else
-            steps << "\tThere is just one node in the Graph, is not necessary analyze the propertie DAG." << endl;
+        steps << "]" << endl;
+    }
+}
 
+bool AFirstSearch::checkDAG(graphs::Graph &G, queue<long>& topologic , std::stringstream &steps)
+{
+    vector<long> vrtxs = G.NodeKeys();
 
-    }while(bContinue);
+    //1.- find a Vertex without incoming nodes.
+    for(size_t i=0; i < vrtxs.size(); i++)
+    {
+        if(G[vrtxs[i]].countNodesAdy(true) == 0)
+        {
+            topologic.push(vrtxs[i]);
+            G.removeNode(vrtxs[i]);
+
+            if(G.countNodes() > 0)
+                return checkDAG(G,topologic,steps);
+            else
+                return true;
+        }
+    }
+
+    return false;
 }

@@ -6,11 +6,14 @@
 #include <QBrush>
 #include <QFont>
 #include <QPen>
+#include <QObject>
 
 class GNode;
 
-class GEdge : public QGraphicsLineItem
+class GEdge : public QObject, public QGraphicsLineItem
 {
+    Q_OBJECT
+
     static QPen   penBlack;
     static QPen   penLGray;
 
@@ -28,6 +31,9 @@ class GEdge : public QGraphicsLineItem
 
     void updateArrow();
     void updateLabel();
+
+signals:
+    void longitudChanged(int id, long newL);
 
 public:
     GEdge(QGraphicsItem *parent=0);

@@ -70,8 +70,8 @@
      </property>
      <addaction name="actionBSD"/>
      <addaction name="actionBFS_DFS_directed"/>
-     <addaction name="actionShorter_Path_undirected"/>
      <addaction name="actionShorter_Path_directed"/>
+     <addaction name="actionShorter_Path_undirected"/>
     </widget>
     <addaction name="menuBasic"/>
     <addaction name="menuGraphs"/>

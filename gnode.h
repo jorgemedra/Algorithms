@@ -43,7 +43,7 @@ protected:
 
 signals:
     void pressed(GNode* node);
-    void moved(GNode* node);
+    //void moved(GNode* node);
 
 public:
     GNode(QGraphicsItem *parent=0);

@@ -18,10 +18,11 @@ GEdge::GEdge(QGraphicsItem* parent):
     _nBegin(nullptr),
     _nEnd(nullptr),
     _bArrow(false),
+    _bLabelArw(false),
     _upAL(nullptr),
     _dnAL(nullptr),
-    _Longitud(0),
-    _bLabelArw(false)
+    _label{},
+    _Longitud(0)
 {
     setPen(penBlack);
     _label.setParentItem(this);
@@ -156,8 +157,9 @@ void GEdge::updateArrow()
 
 void GEdge::updateLabel()
 {
-    qreal dx, dy, xl, yl;
-    qreal xB, yB, xE, yE;
+    qreal dx{0}, dy{0}, xl{0}, yl{0};
+    qreal xB{0}, yB{0}, xE{0}, yE{0};
+    long prevLong = _Longitud;
 
     _label.setVisible(_bLabelArw);
     if(!_bLabelArw) return;
@@ -172,6 +174,7 @@ void GEdge::updateLabel()
 
     dx > 0 ? dx = dx/2: dx = 0;
     dy > 0 ? dy = dy/2: dy = 0;
+
 
     _Longitud = (long) sqrt( ( pow(dx,2) + pow(dy,2) ) );
 
@@ -200,4 +203,7 @@ void GEdge::updateLabel()
     _label.setX(xl);
     _label.setY(yl);
     _label.setHtml(value.setNum(_Longitud));
+
+    if(prevLong != _Longitud)
+        emit longitudChanged(_id,_Longitud);
 }

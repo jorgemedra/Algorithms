@@ -1,70 +1,237 @@
 #ifndef GRAPHS_H
 #define GRAPHS_H
 
-#include <vector>
+#include<map>
+#include<vector>
 
-namespace algorithms
-{
-    namespace graphs {
+using namespace std;
 
-        class Node;
-        class Edge;
+namespace graphs {
 
-        class Graph{
-            bool _directed;
-            std::vector<Node> _nodes;
-            std::vector<Edge> _edges;
+class Node;
+class Edge;
 
-        public:
-            Graph(bool directed=false);
-            void addNode(int id);
-            void linkNodes(int idNodeB,int idNodeE, int idEdge, long length);
+class Edge{
+    long _id;
+    long _length;
+    vector<long> _nodes;
+    bool _enabled;
+public:
+    Edge()=default;
+    Edge(long id, long length, long from, long to):_id{id},_length{length},_nodes{from,to},_enabled{true}{}
 
-            bool empty();
-            int countNodes();
-            int countEdges();
-            Node& operator[](int index);
-            Edge& operator()(int index);
+    long ID(){return _id;}
+    long Length(){return _length;}
+    void updateLenght(long length){_length = length; }
+    void enable(bool bEnb){_enabled=bEnb;}
+    bool isEnabled(){return _enabled;}
+};
 
-            std::vector<Node> Nodes();
-            void clear();
-        };
+class Node{
+    long _id;
+    //each pair represents the Node and the Edge <idNode,idEdge>
+    map<long,long> _eIn;    //The Adyacent inpunt vertex
+    map<long,long> _eOut;   //The Adyacent output vertex
+    bool _enabled;
+public:
+    Node()=default;
+    Node(long id):_id{id},_eIn{},_eOut{},_enabled{true}{}
 
-        class Node{
-            int _id;
-            std::vector<std::pair<int,int>> _nodesAdjIn;
-            std::vector<std::pair<int,int>> _nodesAdjOut;
+    long ID() const {return _id;}
+    void enable(bool bEnb){_enabled=bEnb;}
+    bool isEnabled() const {return _enabled;}
 
-        public:
-            Node():_id{-1}, _nodesAdjIn{}, _nodesAdjOut{}{}
-            Node(int id);
+    void addAdyacenteNodes(long idAdjV, long idEdge, bool isIncomming=false)
+    {
+        bool execute;
+        //Valid if the Node has not been connected yet.
+        execute = isIncomming? _eIn.find(idAdjV) == _eIn.end() : _eOut.find(idAdjV) == _eOut.end();
 
-            int ID();
+        if(!execute) return;
 
-            int countNodesAdj(bool adjIn=false);
-            void linkNode(int idNode, int idEdge, bool isIn=false);
-            std::pair<int,int> nodeAdj(int index, bool isIn=false);
-        };
+        if(isIncomming)
+            _eIn.insert(std::pair<long,long>(idAdjV,idEdge));
+        else
+            _eOut.insert(std::pair<long,long>(idAdjV,idEdge));
+    }
 
-        class Edge{
-            int _id{-1};
-            long _length{-1L};
-            int _NodeBegin{-1};
-            int _NodeEnd{-1};
+    vector<pair<long,long>> getAdyacentNodes(bool fromIncomming = false)
+    {
+        size_t size = fromIncomming? _eIn.size() : _eOut.size();
 
-        public:
-            Edge():_id{-1}, _length{-1L}, _NodeBegin{-1},  _NodeEnd{-1}{}
-            Edge(int id, int nIni, int nEnd, long len);
+        map<long,long>::iterator it = fromIncomming ? _eIn.begin() : _eOut.begin();
+        map<long,long>::iterator end = fromIncomming ? _eIn.end() : _eOut.end();
+        vector<std::pair<long,long>> vtrxs(size);
+        size_t i = 0;
 
-            int ID();
-            int Begine();
-            int End();
-            long length();
-            void setLength(long len);
-        };
+        while(it != end)
+        {
+            vtrxs[i] = std::make_pair(it->first,it->second);
+            i++;
+            it++;
+        }
 
-    }//graphs
+        return vtrxs;
+    }
 
-}//algorithms
+    long countNodesAdy(bool isIncomming=false)
+    {
+        return isIncomming? _eIn.size() : _eOut.size();
+    }
+
+    void removeAdyacentNode(long id)
+    {
+        _eIn.erase(id);
+        _eOut.erase(id);
+    }
+};
+
+class Graph{
+    map<long, Node> _nodes;
+    map<long, Edge> _edges;
+
+    long createEdge(long length, long from, long to)
+    {
+        long id = _edges.size();
+        Edge e(id,length, from, to);
+        _edges.insert(std::pair<long,Edge>(id,e));
+        return id;
+    }
+
+public:
+    Graph():_nodes{},_edges{}{}
+
+    ~Graph()
+    {
+        clear();
+    }
+
+    bool empty() const
+    {
+        return _nodes.empty();
+    }
+
+    void clear()
+    {
+        _nodes.clear();
+        _edges.clear();
+    }
+
+    void disableAll()
+    {
+        map<long, Node>::iterator itv;
+        map<long, Edge>::iterator ite;
+
+        for(itv = _nodes.begin(); itv != _nodes.end(); itv++)
+            itv->second.enable(false);
+
+        for(ite = _edges.begin(); ite != _edges.end(); ite++)
+            ite->second.enable(false);
+    }
+
+    long countNodes() const{
+        return _nodes.size();
+    }
+
+    long countEdges() const{
+        return _edges.size();
+    }
+
+    long createNode(){
+        long id = _nodes.size();// + 1;
+        Node v(id);
+        _nodes[id] = v;
+        return id;
+    }
+
+    Node& operator[](long id)
+    {
+        if(_nodes.find(id) == _nodes.end())
+            throw runtime_error("There is no such Node.");
+        return _nodes[id];
+    }
+
+    Edge& operator()(long id)
+    {
+        if(_edges.find(id) == _edges.end())
+            throw runtime_error("There is no such Edge.");
+        return _edges[id];
+    }
+
+    vector<long> NodeKeys()
+    {
+        vector<long> keys(_nodes.size(),-1);
+        map<long, Node>::iterator it = _nodes.begin();
+
+        size_t i = 0;
+        while(it != _nodes.end())
+        {
+            keys[i++] =it->first;
+            it++;
+        }
+
+        return keys;
+    }
+
+    vector<long> EdgeKeys()
+    {
+        vector<long> keys(_edges.size(),-1);
+        map<long, Edge>::iterator it = _edges.begin();
+
+        size_t i = 0;
+        while(it != _edges.end())
+        {
+            keys[i++] =it->first;
+            it++;
+        }
+
+        return keys;
+    }
+
+    long connectNodes(long vOut, long vIn, long length, bool directed = false)
+    {
+        long id{0};
+
+        Node& from = _nodes[vOut];
+        Node& to = _nodes[vIn];
+
+
+        id = createEdge(length,vOut, vIn);
+        from.addAdyacenteNodes(to.ID(),id);
+        to.addAdyacenteNodes(from.ID(),id, directed ? true:false);
+
+        return id;
+    }
+
+    void removeNode(long id)
+    {
+        map<long, Node>::iterator it = _nodes.find(id);
+
+        if(it != _nodes.end())
+        {
+            vector<pair<long,long>> vxs = _nodes[id].getAdyacentNodes();
+            for(pair<long,long> va : vxs)
+            {
+                long idV = va.first;
+                long idE = va.second;
+                _nodes[idV].removeAdyacentNode(id); //unlink the Vertext from its adjancentes Vertexes.
+                _edges.erase(idE); //Remove the Edge linked to the adjancentes Vertex.
+            }
+
+            _nodes.erase(id); //remove the Vertex from the graph.
+        }
+    }
+
+    void updateEdgeLength(long id, long length)
+    {
+        map<long, Edge>::iterator it;
+        it = _edges.find(id);
+        if(it != _edges.end())
+            it->second.updateLenght(length);
+    }
+};
+
+}//namespace
+
 
 #endif // GRAPHS_H

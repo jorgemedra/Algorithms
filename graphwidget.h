@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include<gnode.h>
 #include<gedge.h>
+#include"graphs.h"
 
 #define MAX_GNODES      50
 #define MAX_EDGES       1180
@@ -14,6 +15,10 @@
 #define GITEM_EDGE  1
 
 
+namespace graphs
+{
+namespace ui
+{
 class GraphWidget: public QGraphicsView
 {
     Q_OBJECT
@@ -38,6 +43,7 @@ class GraphWidget: public QGraphicsView
     void resetNodes();
     void connectNodes();
 
+    Graph G;
 
 protected:
 
@@ -49,22 +55,26 @@ signals:
 
     void errorRaised(int code);
     void nodeCreated(GNode* node);
-    void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
-    void nodeChanged(GNode* node);
+    //void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
+    //void nodeChanged(GNode* node);
 
 public slots:
 
     void nodePressed(GNode* node);
-    void nodeMoved(GNode* node);
+    //void nodeMoved(GNode* node);
+    void edgeLengthChanged(int id, long newL);
 
 public:
     GraphWidget(bool directed, QWidget *parent = 0);
 
     void resetGraphAppearance(bool hided);
-    void setItemOpacity(int id, int itemType,  bool hided);
+    void setItemOpacity(int id, int itemType,  bool show);
     void showArrowLabel();
+
+    const Graph& Graph();
 
 
 };
-
+} //namespace ui
+} //namespace graphs
 #endif // GRAPHWIDGET_H
