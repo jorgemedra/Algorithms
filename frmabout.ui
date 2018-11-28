@@ -37,11 +37,11 @@
      <x>20</x>
      <y>10</y>
      <width>311</width>
-     <height>101</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#1747c9;&quot;&gt;Algorithms&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#1747c9; vertical-align:sub;&quot;&gt;V1 (September, 2018)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; color:#000000;&quot;&gt;Algorithms&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:18pt; color:#000000; vertical-align:sub;&quot;&gt;V2 (November, 2018)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;https://github.com/jorgemedra&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/jorgemedra.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::RichText</enum>

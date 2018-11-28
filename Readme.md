@@ -21,7 +21,11 @@ Check the [Wiki Documentation](https://github.com/jorgemedra/Algorithms/wiki) fo
 
 # Versions
 
-## Versions 1.0 September 218
+## Versions 2 November 2018
+
++ New structure to handle the logical representation of a graph.
+
+## Versions 1.0 September 2018
 
 + New section to Sort Algorithms which includes
 
