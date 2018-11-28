@@ -1,7 +1,7 @@
 #ifndef GRAPHS_H
 #define GRAPHS_H
 
-#include<map>
+#include<unordered_map>
 #include<vector>
 
 using namespace std;
@@ -30,8 +30,8 @@ public:
 class Node{
     long _id;
     //each pair represents the Node and the Edge <idNode,idEdge>
-    map<long,long> _eIn;    //The Adyacent inpunt vertex
-    map<long,long> _eOut;   //The Adyacent output vertex
+    unordered_map<long,long> _eIn;    //The Adyacent inpunt vertex
+    unordered_map<long,long> _eOut;   //The Adyacent output vertex
     bool _enabled;
 public:
     Node()=default;
@@ -59,8 +59,8 @@ public:
     {
         size_t size = fromIncomming? _eIn.size() : _eOut.size();
 
-        map<long,long>::iterator it = fromIncomming ? _eIn.begin() : _eOut.begin();
-        map<long,long>::iterator end = fromIncomming ? _eIn.end() : _eOut.end();
+        unordered_map<long,long>::iterator it = fromIncomming ? _eIn.begin() : _eOut.begin();
+        unordered_map<long,long>::iterator end = fromIncomming ? _eIn.end() : _eOut.end();
         vector<std::pair<long,long>> vtrxs(size);
         size_t i = 0;
 
@@ -87,8 +87,8 @@ public:
 };
 
 class Graph{
-    map<long, Node> _nodes;
-    map<long, Edge> _edges;
+    unordered_map<long, Node> _nodes;
+    unordered_map<long, Edge> _edges;
 
     long createEdge(long length, long from, long to)
     {
@@ -119,8 +119,8 @@ public:
 
     void disableAll()
     {
-        map<long, Node>::iterator itv;
-        map<long, Edge>::iterator ite;
+        unordered_map<long, Node>::iterator itv;
+        unordered_map<long, Edge>::iterator ite;
 
         for(itv = _nodes.begin(); itv != _nodes.end(); itv++)
             itv->second.enable(false);
@@ -161,7 +161,7 @@ public:
     vector<long> NodeKeys()
     {
         vector<long> keys(_nodes.size(),-1);
-        map<long, Node>::iterator it = _nodes.begin();
+        unordered_map<long, Node>::iterator it = _nodes.begin();
 
         size_t i = 0;
         while(it != _nodes.end())
@@ -176,7 +176,7 @@ public:
     vector<long> EdgeKeys()
     {
         vector<long> keys(_edges.size(),-1);
-        map<long, Edge>::iterator it = _edges.begin();
+        unordered_map<long, Edge>::iterator it = _edges.begin();
 
         size_t i = 0;
         while(it != _edges.end())
@@ -205,7 +205,7 @@ public:
 
     void removeNode(long id)
     {
-        map<long, Node>::iterator it = _nodes.find(id);
+        unordered_map<long, Node>::iterator it = _nodes.find(id);
 
         if(it != _nodes.end())
         {
@@ -224,7 +224,7 @@ public:
 
     void updateEdgeLength(long id, long length)
     {
-        map<long, Edge>::iterator it;
+        unordered_map<long, Edge>::iterator it;
         it = _edges.find(id);
         if(it != _edges.end())
             it->second.updateLenght(length);
