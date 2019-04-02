@@ -37,6 +37,8 @@ private slots:
 
     void on_actionSorting_triggered();
 
+    void on_actionCompress_triggered();
+
 private:
     Ui::MainWindow *ui;
 

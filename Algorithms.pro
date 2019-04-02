@@ -31,10 +31,12 @@ SOURCES += main.cpp\
     frmgraphs.cpp \
     gnode.cpp \
     gedge.cpp \
-    afirstsearch.cpp \
     frmgraphpath.cpp \
     measuretool.cpp \
-    frmsort.cpp
+    frmsort.cpp \
+    graphalgorithms.cpp \
+    frmcompress.cpp \
+    huffman.cpp
 
 HEADERS  += mainwindow.h \
     frmabout.h \
@@ -47,12 +49,15 @@ HEADERS  += mainwindow.h \
     frmgraphs.h \
     gnode.h \
     gedge.h \
-    afirstsearch.h \
     frmgraphpath.h \
     measuretool.h \
     graphs.h \
     frmsort.h \
-    sortalgorithms.h
+    sortalgorithms.h \
+    graphsalgorithms.h \
+    disjoint.h \
+    frmcompress.h \
+    huffman.h
 
 FORMS    += mainwindow.ui \
     frmabout.ui \
@@ -60,7 +65,8 @@ FORMS    += mainwindow.ui \
     frmgraphs.ui \
     frmstablematching.ui \
     frmgraphpath.ui \
-    frmsorts.ui
+    frmsorts.ui \
+    frmcompress.ui
 
 DISTFILES += \
     Readme.md

@@ -4,7 +4,7 @@
 #include "ui_frmgraphs.h"
 #include "gnode.h"
 #include "gedge.h"
-#include "afirstsearch.h"
+#include "graphsalgorithms.h"
 #include "graphs.h"
 
 using namespace std;
@@ -64,17 +64,6 @@ void frmGraphFS::nodeCreated(GNode* node)
     cout << "Node [" << node->getId() << "] was added.";
     writeLog(out.str());
 }
-/*
-void frmGraphFS::nodesConnected(GNode* nodeBeg, GNode* nodeEnd, GEdge* edge)
-{
-    stringstream out;
-    cout <<"frmGraphFS::nodesConnected: Nodes "
-        << nodeBeg->getId() << ":" << nodeEnd->getId()
-        << " with Edge " << edge->getId() << " and logitud: " << edge->getLongitud() << endl;
-
-    G.linkNodes(nodeBeg->getId(), nodeEnd->getId(), edge->getId(),edge->getLongitud());
-}
-*/
 
 /*********************
  *      Actions      *

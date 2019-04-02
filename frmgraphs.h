@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <vector>
 #include "graphwidget.h"
-//#include "tnode.h"
 #include "graphs.h"
 
 namespace Ui {
@@ -23,7 +22,6 @@ public slots:
 
     void errorRaised(int code);
     void nodeCreated(GNode* node);
-    //void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
 
 private slots:
     void on_cmdBuildTree_clicked();

@@ -7,11 +7,78 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>459</height>
    </rect>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>232</red>
+        <green>232</green>
+        <blue>232</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>232</red>
+        <green>232</green>
+        <blue>232</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>232</red>
+        <green>232</green>
+        <blue>232</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>232</red>
+        <green>232</green>
+        <blue>232</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -33,7 +100,7 @@
          <item>
           <widget class="QLabel" name="lbTo">
            <property name="text">
-            <string>TextLabel</string>
+            <string>To Node:</string>
            </property>
           </widget>
          </item>
@@ -41,9 +108,48 @@
           <widget class="QComboBox" name="cmbTo"/>
          </item>
          <item>
+          <widget class="QLabel" name="lb">
+           <property name="text">
+            <string>Size of Cluster</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbSize"/>
+         </item>
+         <item>
           <widget class="QRadioButton" name="optDjskt">
            <property name="text">
             <string>Djisktra Algorithm</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="optPrim">
+           <property name="text">
+            <string>Prim’s Algorithm (Min Span)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="optKruskal">
+           <property name="text">
+            <string>Kruskal’s
+Algorithm (Min Span)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="optCluster">
+           <property name="text">
+            <string>RadioButton</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cmdFind">
+           <property name="text">
+            <string>Find</string>
            </property>
           </widget>
          </item>
@@ -63,6 +169,20 @@
         </layout>
        </item>
       </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="lytLog">
+     <item>
+      <widget class="QTextEdit" name="txtLogs"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cmdClear">
+       <property name="text">
+        <string>Clear log</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

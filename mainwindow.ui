@@ -46,12 +46,6 @@
    <property name="nativeMenuBar">
     <bool>true</bool>
    </property>
-   <widget class="QMenu" name="menuAlgorithms">
-    <property name="title">
-     <string>System</string>
-    </property>
-    <addaction name="actionLogs"/>
-   </widget>
    <widget class="QMenu" name="menuSystem">
     <property name="title">
      <string>Algorithm</string>
@@ -76,6 +70,7 @@
     <addaction name="menuBasic"/>
     <addaction name="menuGraphs"/>
     <addaction name="actionSorting"/>
+    <addaction name="actionCompress"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -85,7 +80,6 @@
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
-   <addaction name="menuAlgorithms"/>
    <addaction name="menuSystem"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -143,17 +137,22 @@
   </action>
   <action name="actionShorter_Path_undirected">
    <property name="text">
-    <string>Shorter Path undirected</string>
+    <string>Shorter Path /Minimum Tree Span undirected</string>
    </property>
   </action>
   <action name="actionShorter_Path_directed">
    <property name="text">
-    <string>Shorter Path directed</string>
+    <string>Shorter Path / Minimum Tree Span directed</string>
    </property>
   </action>
   <action name="actionSorting">
    <property name="text">
     <string>Sorting</string>
+   </property>
+  </action>
+  <action name="actionCompress">
+   <property name="text">
+    <string>Compress</string>
    </property>
   </action>
  </widget>

@@ -2,6 +2,7 @@
 #include "ui_frmpriorityqueue.h"
 #include <iostream>
 #include <sstream>
+#include <unordered_map>
 
 using namespace collections;
 using namespace std;
@@ -40,8 +41,9 @@ void frmPriorityQueue::on_cmdAddItem_clicked()
     stringstream steps;
 
     TreeNode* item = new TreeNode();
+
     item->ID = ui->txtKeyValue->text().toLong();
-    heap.Insert(item->ID, item, steps);
+    heap.Insert(static_cast<size_t>(item->ID), item, steps);
 
     steps << endl;
     writeLog(steps.str());
@@ -65,7 +67,7 @@ void frmPriorityQueue::drawTable()
 
     for(size_t r=0; r < heap.size(); r++)
     {
-        TreeNode* item = heap[r+1];
+        TreeNode* item = heap[r+1]; //The heap is base 1.
         QTableWidgetItem* it = ui->tblHeap->item(r,0);
 
         if(it == 0)
@@ -80,7 +82,7 @@ void frmPriorityQueue::drawTable()
 
 void frmPriorityQueue::drawTree()
 {
-    for(int i=1; i<= heap.size(); i++)
+    for(size_t i=1; i<= heap.size(); i++)
         tree->drawNode(i, scene);
 }
 
@@ -96,7 +98,7 @@ void frmPriorityQueue::on_tblHeap_clicked(const QModelIndex &index)
 void frmPriorityQueue::on_cmdDelete_clicked()
 {
     stringstream steps;
-    bool success;
+    bool success = false;
     TreeNode* item = heap.Delete(itemSelected, success, steps);
 
     steps << endl;
@@ -135,17 +137,16 @@ void frmPriorityQueue::on_cmdPurgeQueue_clicked()
 {
     stringstream steps;
     stringstream out;
-    long key;
 
     steps << "::::::::::::::::::::::::::::" << endl
           << "::: Steps to Purge Queue ::: " << endl
           << "::::::::::::::::::::::::::::" << endl;
     out << " ::: Queue Output Sequence:::" << endl << "\t[";
 
-    while(heap.size() > 0)
+    while(!heap.empty())
     {
         bool success;
-        TreeNode* node = heap.ExtractMin(success, steps);
+        TreeNode* node = heap.ExtractFirst(success, steps);
         if(success)
         {
             out << " " << node->ID;
@@ -160,4 +161,46 @@ void frmPriorityQueue::on_cmdPurgeQueue_clicked()
 
     drawTable();
     drawTree();
+}
+
+void frmPriorityQueue::on_tblHeap_cellChanged(int row, int column)
+{
+    stringstream steps;
+    if(row >= 0)
+    {
+        size_t position = row + 1;
+        bool converted{false};
+        size_t oKey = heap.Weigth(static_cast<size_t>(position));
+
+
+        QString data = ui->tblHeap->item(row,column)->text();
+        size_t nKey = data.toLong(&converted,10);
+
+        if(converted)
+        {
+            if(nKey != oKey)
+            {
+                //Change the Item before alter the heap
+                TreeNode* item = heap[position];
+                item->ID = nKey;
+                heap.changeKey(position,nKey,steps);
+
+                writeLog(steps.str());
+                drawTable();
+                drawTree();
+            }
+        }
+        else
+        {
+            //Restore the original Key.
+            QTableWidgetItem* it = ui->tblHeap->item(row,0);
+            it->setText(QString::number(oKey));
+        }
+    }
+}
+
+void frmPriorityQueue::on_tblHeap_cellEntered(int row, int column)
+{
+    QString d = ui->tblHeap->item(row,column)->text();
+    std::cout << "cellEntered: [" << row << "," << column << "]: " << d.toStdString() << std::endl;
 }

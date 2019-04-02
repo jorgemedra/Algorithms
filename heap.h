@@ -4,14 +4,19 @@
 
 #include<sstream>
 #include<vector>
+#include<unordered_map>
 #include <tuple>
 #include <chrono>
 #include <measuretool.h>
 
+#include <iostream>
+#include <sstream>
+
 namespace collections {
 
 
-const long HEAP_MAX_SIZE = 524;
+const size_t HEAP_MAX_SIZE = 1024;
+const size_t HEAP_INIFITY_KEY = std::numeric_limits<size_t>::max();
 
 /**
  * @brief The HeapItem class is used to be inherited by other classes which are the Final Item of priority queue.
@@ -23,34 +28,57 @@ const long HEAP_MAX_SIZE = 524;
 template <class T>
 class Heap
 {
-    std::vector<T> h_array;
-    std::vector<long> k_array;
+    //std::vector<size_t> _heap; //Array to handle the Heap.
+    std::vector<double> _heap; //Array to handle the Heap.
+    std::vector<T> _h_array; // Array to handle the Items T
+    std::unordered_map<T, size_t> _map_position; //<Item, Current Position>
 
-    size_t lastItemPos;
+    //size_t _kCounter;
+
+    //size_t _lastItemPos;
     size_t _levels;
+    bool _orderByMin;
+
+    //size_t createRetriveKey();
 
     void calculateLevels();
 
+    void swap(size_t pos1, size_t pos2, std::stringstream& steps);
     void heapify_up(size_t position, std::stringstream& steps);
     void heapify_down(size_t position, std::stringstream& steps);
-
-    bool _orderByMin;
+    void reorderHeapFrom(size_t position, std::stringstream& steps);
 
 public:
-    Heap(bool orderByMin = true):h_array{}, k_array{}, _orderByMin{orderByMin}{}
+
+    Heap(bool orderByMin = true):
+        _heap{},
+        _h_array{},
+        _map_position{},
+        //_pos_key{},
+        _levels{0},
+        _orderByMin{orderByMin}
+        //_kCounter{0}
+    {}
 
     bool isOrerderedbyMin();
 
+    bool empty();
     size_t size();
     size_t levels();
 
-    T& operator[](size_t index);
-    long Key(size_t index);
+    T& operator[](size_t position); //To get the Item according its Position.
+    //T& operator[](std::string rKey); //To get the Item according its RetriveKey.
+    size_t Position(T& item); //To Item's position according its RetriveKey.
+    //std::vector<std::string> Keys(); //Retrive a vector with all Retrive Keys.
+    double Weigth(size_t position);
 
-    bool Insert(long key, T item, std::stringstream& steps);
-    T& FindMinMax(bool& success, std::stringstream& steps);
-    T& ExtractMin(bool& success, std::stringstream& steps);
+    //bool Insert(size_t weight, T& item, std::stringstream& steps);
+    bool Insert(double weight, T& item, std::stringstream& steps);
+    T& FindFirst(bool& success, std::stringstream& steps);
+    T& ExtractFirst(bool& success, std::stringstream& steps);
     T& Delete(size_t index, bool& success, std::stringstream& steps);
+    void changeKey(size_t position, double newkey, std::stringstream& steps);
+    void changeKey(T& item, double newkey, std::stringstream& steps);
 };
 
 template <class T>
@@ -60,9 +88,15 @@ bool Heap<T>::isOrerderedbyMin()
 }
 
 template <class T>
+bool Heap<T>::empty()
+{
+    return _heap.empty();
+}
+
+template <class T>
 size_t Heap<T>::size()
 {
-    return h_array.size();
+    return _heap.size();
 }
 
 template <class T>
@@ -75,38 +109,208 @@ template <class T>
 void Heap<T>::calculateLevels()
 {
     size_t _size = size();
-    _levels = 0;
 
-    for(int i=1; i <= _size; i=i*2)
+    double temp = log2(_size);
+    _levels =static_cast<size_t>(temp) +1;
+}
+
+/**
+ * @brief Heap<T>::operator [] Operator to get the Item according its Position.
+ * @param position  The position of the item into the heap.
+ * @return A reference to the Item.
+ */
+template <class T>
+T& Heap<T>::operator[](size_t position)
+{
+    position--; //Index Array is base CERO.
+    if(position < 0 || position >= size()) throw std::out_of_range("Heap<>::Index out of range.");
+
+    return _h_array[position];
+}
+
+
+/**
+ * @brief Heap<T>::operator [] Operator to get the position's item by its Retrive Key
+ * @param key The Item wich is linked to the position.
+ * @return The item.
+ * /
+template <class T>
+T& Heap<T>::operator[](std::string rKey) //To Item position according its RetriveKey.
+{
+    size_t position = Position(rKey);
+    if(!position) throw std::out_of_range("Heap<>::There is no such Retreive Key.");
+
+    return _h_array[position-1];
+}*/
+
+/**
+ * @brief Heap<T>::position retrive the position of an Item according its Retreive Key.
+ * @param rKey
+ * @return The position of the element.
+ */
+template<class T>
+size_t  Heap<T>::Position(T& item)
+{
+    auto it = _map_position.find(item);
+
+    if(it == _map_position.end())
+        return 0;
+
+    return _map_position[item];
+}
+
+/**
+ * @brief Heap<T>::keys Retrive a vector with allthe  Retrive Keys.
+ * @return a vetor of keys of string
+ * /
+template <class T>
+std::vector<std::string> Heap<T>::Keys()
+{
+    std::vector<std::string> keys;
+
+    for( auto it = _map_position.begin(); it != _map_position.end(); it++)
+        keys.push_back(it->first);
+    return keys;
+}
+*/
+
+/**
+ * @brief Heap<T>::CostKey Gets the Key Cost of the item which is used by Heap to order its items.
+ * @param position The position, in base 1.
+ * @return The current Key Cost of the Item into the hea.
+ */
+template <class T>
+double Heap<T>::Weigth(size_t position)
+{
+    position--; //Index Array is base CERO.
+    if(position < 0 || position >= size()) throw std::out_of_range("Heap<>::Index out of range.");
+
+    return _heap[position];
+}
+
+
+/**
+ * @brief swap Method to swap two items of the heap.
+ * @param from position from
+ * @param pos2 position to
+ * @param steps
+ */
+template <class T>
+void Heap<T>::swap(size_t from, size_t to, std::stringstream& steps)
+{
+    size_t pi{from-1}, pf{to-1};
+
+    T it1,it2;
+    it1 = _h_array[pi];
+    it2 = _h_array[pf];
+
+    //Swap the keys and items
+    std::swap(_heap[pi],_heap[pf]);
+    std::swap(_h_array[pi],_h_array[pf]);
+
+    //Update the Position in the heap of each item, into the map.
+    _map_position[it1] = to;
+    _map_position[it2] = from;
+
+    steps << "\tSwap Item from Pos[" << from << "] to Pos:[" << to << "]." << std::endl;
+}
+
+/**
+ * @brief Heap::heapify_Up
+ * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @param steps
+ */
+template <class T>
+void Heap<T>::heapify_up(size_t position, std::stringstream& steps)
+{
+    size_t kparent;
+    size_t kcurrent;
+
+    steps << "HEAP::Heapify-Up:" << std::endl;
+
+    if(position > 1) //The item is not the root.
     {
-        if(h_array.size() <= i) return;
-        else _levels++;
+        size_t posParent = (size_t)(position / 2); //Index Base Cero
+
+        kparent  = _heap[posParent-1];
+        kcurrent = _heap[position-1];
+
+        if((_orderByMin && kcurrent <= kparent) || (!_orderByMin && kcurrent >= kparent))
+        {
+            swap(position, posParent, steps);
+            heapify_up(posParent, steps); //Evalue the new parent.
+        }
     }
+    else
+        steps << "\tEnds without any change in position:["<< position << "]" << std::endl;
+}
+
+/**
+ * @brief Heap::heapify_down
+ * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @param steps
+ */
+template <class T>
+void Heap<T>::heapify_down(size_t position, std::stringstream& steps)
+{
+    size_t to;
+    size_t kroot;
+    size_t krChild;
+    size_t klChild;
+    bool bLeft{false}, bRigth{false};
+
+    size_t lastItemPos = size();
+
+    steps << "HEAP::Heapify-Down:" << std::endl;
+
+    size_t posParent = position;
+    size_t left = 2 * position;
+    size_t right = (2 * position) + 1;
+
+    if(position >= 1 && position <= lastItemPos)
+    {
+        kroot = _heap[posParent-1];
+
+        if(left <= lastItemPos) //There is a Left Child
+        {
+            klChild = _heap[left-1]; //Get key in heap
+            bLeft   = (_orderByMin && klChild < kroot) || (!_orderByMin && klChild > kroot) ? true : false;
+        }
+
+        if(right <= lastItemPos) //There is a Left Child
+        {
+            krChild = _heap[right-1]; //Get key in heap
+            bRigth  = (_orderByMin && krChild < kroot) || (!_orderByMin && krChild > kroot) ? true : false;
+        }
+
+        if(bLeft && bRigth)
+        {
+            bLeft = (_orderByMin && klChild < krChild) || (!_orderByMin && klChild > krChild) ? true :false;
+            bRigth = !bLeft;
+        }
+
+        if(bLeft || bRigth)
+        {
+            to = bLeft ? left: right;
+            swap(position, to, steps);
+            heapify_down(to, steps);
+        }
+        else
+            steps << "\tThere is no childs to performence a Heapify-Down at position:["<< position << "]" << std::endl;
+    }
+    else
+        steps << "\tEnded due to there is an index out of range with position:["<< position << "]" << std::endl;
 }
 
 template <class T>
-T& Heap<T>::operator[](size_t index)
+//bool Heap<T>::Insert(size_t weight, T& item, std::stringstream& steps)
+bool Heap<T>::Insert(double weight, T& item, std::stringstream& steps)
 {
-    index--; //Index Array is base CERO.
-    if(index < 0 || index >= this->size()) throw std::out_of_range("Heap<>::Index out of range.");
 
-    return h_array[index];
-}
-
-template <class T>
-long Heap<T>::Key(size_t index)
-{
-    index--; //Index Array is base CERO.
-    if(index < 0 || index >= this->size()) throw std::out_of_range("Heap<>::Index out of range.");
-
-    return k_array[index];
-}
-
-template <class T>
-bool Heap<T>::Insert(long key, T item, std::stringstream& steps)
-{
     measure::MeasureTool mt;
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+    //std::cout << "Insert H Address: [" << item <<  "]" << std::endl;
 
     steps << "HEAP::Insert" << std::endl;
     if((size() + 1) > HEAP_MAX_SIZE)
@@ -115,10 +319,13 @@ bool Heap<T>::Insert(long key, T item, std::stringstream& steps)
         return false;
     }
 
-    h_array.push_back(item);
-    k_array.push_back(key);
+    _heap.push_back(weight); //Store the Heap Key, which defines its order into the heap.
+    _h_array.push_back(item); //Store in the same position of the Key the Item.
+    //_pos_key.push_back(rtvKey); //Store the Retrive Key according its position.
+    _map_position[item] = size(); //Link the Item to its current position into the heap.
 
-    steps << "\tThe Item was added int Pos:[" << size() << "]-Key: [" << key << "] " << std::endl;
+
+    steps << "\tThe Item was added int Pos:[" << size() << "]-Weigth(): [" << weight << "] " << std::endl;
 
     if(size()>0) heapify_up(size(), steps); //Redorder heap. This function requeres a index base 1.
     else         steps << "\tIt has been inserted at the first position." << std::endl;
@@ -127,7 +334,7 @@ bool Heap<T>::Insert(long key, T item, std::stringstream& steps)
     mt.measureTime(t1, steps);
 
     calculateLevels();
-    return true;
+    return true; //return the Retrive Key.
 }
 
 /**
@@ -137,11 +344,11 @@ bool Heap<T>::Insert(long key, T item, std::stringstream& steps)
  * @return The firs element of the priority queue.
  */
 template <class T>
-T& Heap<T>::FindMinMax(bool& success, std::stringstream& steps)
+T& Heap<T>::FindFirst(bool& success, std::stringstream& steps)
 {
     T itemEmpty;
     success = true;
-    if(h_array.empty())
+    if(_h_array.empty())
     {
         success = false;
         if(_orderByMin) steps << "HEAP::FindMin: There is no items into Heap." << std::endl;
@@ -150,7 +357,7 @@ T& Heap<T>::FindMinMax(bool& success, std::stringstream& steps)
     }
 
     try{
-        return h_array[0];
+        return _h_array[0];
     }catch(std::out_of_range)
     {
         success = false;
@@ -162,12 +369,12 @@ T& Heap<T>::FindMinMax(bool& success, std::stringstream& steps)
  *  Take out and return the firt item of the Heap, which has the lesser value.
  */
 template <class T>
-T& Heap<T>::ExtractMin(bool& success, std::stringstream& steps)
+T& Heap<T>::ExtractFirst(bool& success, std::stringstream& steps)
 {
     T emptyItem;
     success = true;
 
-    if(h_array.empty())
+    if(_heap.empty())
     {
         success = false;
         if(_orderByMin) steps << "HEAP::EXTRACTMIN: There is no items into Heap." << std::endl;
@@ -190,223 +397,118 @@ T& Heap<T>::ExtractMin(bool& success, std::stringstream& steps)
 template <class T>
 T& Heap<T>::Delete(size_t position, bool& success, std::stringstream& steps)
 {
-    T item;
-    T parent;
-    T itemSwaped;
-    long key;
-    long keyParent;
-    long keyItemSwaped;
-    measure::MeasureTool mt;
-
+    size_t posLast = size();
     success = false;
-
-    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     steps << "HEAP::DELETE[" << position << "]" << std::endl;
 
-    if(position-1 < 0 || position-1 >= size())
+    measure::MeasureTool mt;
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+    if(position < 1 || position > size())
     {
+        T empty;
         steps << "\tError: Index out of range." << std::endl;
-        return item;
+        return empty;
     }
 
-    item = h_array[position-1];
-    key = k_array[position-1];
-
-    if(h_array.size() == 1 || position-1 == (size()-1))
+    T top = _h_array[position-1];
+    if(_heap.size()>1)
     {
-        if(h_array.size()==1)
-            steps << "\tIt was removed the last item." << std::endl;
-        else
-            steps << "\tIt was removed the unique item. The Heap is empty." << std::endl;
-
-        h_array.pop_back();
-        k_array.pop_back();
-        calculateLevels();
-        success = true;
-        mt.measureTime(t1, steps);
-        return item;
+        swap(position,posLast,steps); //Change them last Item vs the Top Item.
     }
 
-    //Swap the las item to the removed item position and reduce the size of Heap.
-    size_t lastItemPos = size()-1;
-    itemSwaped = h_array[lastItemPos];
-    keyItemSwaped = k_array[lastItemPos];
+    _map_position.erase(top); //remove the element from unorder_map
+    _heap.erase(_heap.begin()+(posLast-1)); //remove the element from the last item of vector
+    _h_array.erase(_h_array.begin()+(posLast-1));
 
-    h_array[position-1] = itemSwaped;
-    k_array[position-1] = keyItemSwaped;
-
-    h_array.pop_back();
-    k_array.pop_back();
-
-    steps << "\tItem [" << position << "] delete and Swaped by Item [" << size() << "]." << std::endl;
-
-    if(position == 1)   //The first element do a Heapify-Down
-    {
-        heapify_down(position,steps); //Run heapify_down from root.
-    }
-    else
-    {
-        int posParent = (int)(position / 2);
-        parent = h_array[posParent-1];
-        keyParent = k_array[posParent-1];
-
-        if(_orderByMin)
-        {
-            if(keyParent > keyItemSwaped)
-                heapify_up(position, steps);
-            else
-                heapify_down(position, steps);
-        }
-        else
-        {
-            if(keyParent < keyItemSwaped)
-                heapify_up(position, steps);
-            else
-                heapify_down(position, steps);
-        }
-    }
+    if(_h_array.size()>0)
+        reorderHeapFrom(position,steps);
 
     mt.measureTime(t1, steps);
     calculateLevels();
+
     success = true;
-    return item;
+    return top;
 }
 
 /**
- * @brief Heap::heapify_Up
- * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @brief changeKey Method to change the key from a position.
+ * @param position Position which has the key to change.
+ * @param newkey The new key.
  * @param steps
  */
 template <class T>
-void Heap<T>::heapify_up(size_t position, std::stringstream& steps)
+void Heap<T>::changeKey(size_t position, double newkey, std::stringstream& steps)
 {
-    T parent;
-    T child;
-    long kparent;
-    long kchild;
 
-    steps << "HEAP::Heapify-Up:" << std::endl;
+    measure::MeasureTool mt;
+    steps << "HEAP::CHANGING KEY FROM POSITION:[" << position << "] TO:[" << newkey << "]" << std::endl;
 
-    if(position > 1) //The item is not the root.
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+    if(position < 1 || position > size())
     {
-        int posParent = (int)(position / 2); //Index Base Cero
-
-        parent = h_array[posParent-1];  //Array Index Base Cero
-        kparent = k_array[posParent-1];
-        child = h_array[position-1];    //Array Index Base Cero
-        kchild = k_array[position-1];
-
-        if((_orderByMin && kchild < kparent) || (!_orderByMin && kchild > kparent))
-        {
-            steps << "\tSwap Item Parent I:[" << posParent << "]-K:(" << kparent << ") and "
-                  << "Item Child I:[" << position << "]-K[" << kchild << "]." << std::endl;
-
-            h_array[posParent-1] = child; // Child Become the new Parent
-            k_array[posParent-1] = kchild; // Child Become the new Parent
-
-            h_array[position-1] = parent; // Swap position of pater again new Item.
-            k_array[position-1] = kparent; // Swap position of pater again new Item.
-
-            heapify_up(posParent, steps); //Evalue the new parent.
-        }
-
+        steps << "\tError: Index out of range." << std::endl;
+        return;
     }
-    else
-        steps << "\tEnds without any change in position:["<< position << "]" << std::endl;
+
+    _heap[position-1] = newkey;
+    reorderHeapFrom(position,steps);
+    mt.measureTime(t1, steps);
+}
+
+template <class T>
+void Heap<T>::changeKey(T& item, double newkey, std::stringstream& steps)
+{
+    measure::MeasureTool mt;
+
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+    size_t position = Position(item);
+
+    if(position < 1 || position > size())
+    {
+        steps << "\tError: Index out of range." << std::endl;
+        return;
+    }
+
+    steps << "HEAP::CHANGING KEY FROM POSITION:[" << position << "] TO:[" << newkey << "]" << std::endl;
+
+    _heap[position-1] = newkey;
+    reorderHeapFrom(position,steps);
+    mt.measureTime(t1, steps);
 }
 
 /**
- * @brief Heap::heapify_down
- * @param position Index base 1, to apply the children relation Left=2(position) and Right = 2(position) +1
+ * @brief Heap<T>::reorderHeapFrom
+ * @param position The position of element in Base 1.
  * @param steps
  */
 template <class T>
-void Heap<T>::heapify_down(size_t position, std::stringstream& steps)
+void Heap<T>::reorderHeapFrom(size_t position, std::stringstream& steps)
 {
-    T root;
-    long kroot;
+    size_t lastPos = size();
 
-    steps << "HEAP::Heapify-Down:" << std::endl;
+    if(position <= 0 && position > lastPos) return;
 
-    int posParent = position;
-    int left = 2 * position;
-    int right = (2 * position) + 1;
-
-    if(position >= 1 && position <= (lastItemPos+1))
+    if(position == 1)
+        heapify_down(position,steps);
+    else if(position == lastPos)
+        heapify_up(position,steps);
+    else
     {
-        int posSwap = -1;
-        T lChild;
-        long klChild;
-        T rChild;
-        long krChild;
-        T sItem;
-        long ksItem;
+        size_t posParent = (size_t)(position / 2);
 
-        root = h_array[posParent-1];
-        kroot = k_array[posParent-1];
-        lChild = h_array[left-1];
-        klChild = k_array[left-1];
-        rChild = h_array[right-1];
-        krChild = k_array[left-1];
-
-        if(rChild != nullptr || lChild != nullptr)
-        {
-            //Chose the Child wich has the less key.
-            if(rChild != nullptr && rChild != nullptr)
-            {
-                if( (_orderByMin && krChild < klChild) || (!_orderByMin && krChild > klChild))
-                {
-                    posSwap = right;
-                    sItem = rChild;
-                    ksItem = krChild;
-                }
-                else
-                {
-                    posSwap = left;
-                    sItem = lChild;
-                    ksItem = klChild;
-                }
-            }
-            else
-            {
-                if(rChild != nullptr)
-                {
-                    posSwap = right;
-                    sItem = rChild;
-                    ksItem = krChild;
-                }
-                else
-                {
-                    posSwap = left;
-                    sItem = lChild;
-                    ksItem = klChild;
-                }
-            }
-
-            //Check is the Root is greate than SwapItem.
-            if((_orderByMin && kroot > ksItem) || (!_orderByMin && kroot < ksItem))
-            {
-                steps << "\tSwap Item Parent I:[" << posParent << "]-K:(" << kroot << ") and "
-                      << "Item Child I:[" << posSwap << "]-K[" << ksItem << "]." << std::endl;
-
-                h_array[posParent-1] = sItem;
-                k_array[posParent-1] = ksItem;
-                h_array[posSwap-1] = root;
-                k_array[posSwap-1] = kroot;
-
-                heapify_down(posSwap, steps); //Reevaluete the heap from the last item swaped.
-            }
-        }
+        if( (_orderByMin && _heap[position-1] < _heap[posParent-1]) ||
+                (!_orderByMin && _heap[position-1] > _heap[posParent-1]))
+            heapify_up(position,steps);
         else
-        {
-            steps << "\tThere is no childs to performence a Heapify-Down at position:["<< position << "]" << std::endl;
-        }
-
+            heapify_down(position,steps);
     }
-    else
-        steps << "\tEnded becasue there is an index out of range with position:["<< position << "]" << std::endl;
+
 }
+
 
 }//namespace
 #endif // HEAP_H

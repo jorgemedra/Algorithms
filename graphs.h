@@ -3,7 +3,7 @@
 
 #include<unordered_map>
 #include<vector>
-
+#include<memory>
 using namespace std;
 
 namespace graphs {
@@ -25,6 +25,8 @@ public:
     void updateLenght(long length){_length = length; }
     void enable(bool bEnb){_enabled=bEnb;}
     bool isEnabled(){return _enabled;}
+    long From(){ return _nodes[0];}
+    long To(){ return _nodes[1];}
 };
 
 class Node{

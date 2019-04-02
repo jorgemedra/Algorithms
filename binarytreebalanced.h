@@ -34,13 +34,12 @@ class BinaryTreeBalanced
 
     collections::Heap<TreeNode*>& heap;
 
-    int calculateLevel(int position);
+    size_t calculateLevel(size_t position);
 
 public:
     BinaryTreeBalanced(collections::Heap<TreeNode*>& h);
-    void drawNode(int hPosition, QGraphicsScene* scene);
+    void drawNode(size_t hPosition, QGraphicsScene* scene);
     void deleteNode(TreeNode* item, QGraphicsScene* scene);
-
 };
 
 #endif // BINARYTREEBALANCED_H

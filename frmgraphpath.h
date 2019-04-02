@@ -21,9 +21,20 @@ public:
 public slots:
 
     void errorRaised(int code);
-    //void nodeCreated(GNode* node);
-    //void nodesConnected(GNode* nodeIni, GNode* nodeFin, GEdge* edge);
-    //void nodeMoved(GNode* node);
+    void nodeCreated(GNode* node);
+
+private slots:
+    void on_cmdFind_clicked();
+
+    void on_cmdClear_clicked();
+
+    void on_optDjskt_clicked();
+
+    void on_optPrim_clicked();
+
+    void on_optKruskal_clicked();
+
+    void on_optCluster_clicked();
 
 private:
     Ui::frmGraphPath *ui;
@@ -31,6 +42,14 @@ private:
     graphs::ui::GraphWidget *widget;
 
     bool _bDirected;
+    void writeLog(string log);
+
+    void selectOption();
+
+    void procDijkstra(long from, long to);
+    void procPRIM(long from);
+    void procKruskatCluster(long size = 0, bool isCluster = false);
+
 
 };
 

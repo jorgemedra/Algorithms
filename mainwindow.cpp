@@ -8,6 +8,7 @@
 #include "frmgraphs.h"
 #include "frmgraphpath.h"
 #include "frmsort.h"
+#include "frmcompress.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -109,6 +110,14 @@ void MainWindow::on_actionShorter_Path_directed_triggered()
 void MainWindow::on_actionSorting_triggered()
 {
     frmSort* wnd = new frmSort(this);
+
+    ui->mdiArea->addSubWindow(wnd);
+    wnd->showMaximized();
+}
+
+void MainWindow::on_actionCompress_triggered()
+{
+    frmCompress* wnd = new frmCompress(this);
 
     ui->mdiArea->addSubWindow(wnd);
     wnd->showMaximized();

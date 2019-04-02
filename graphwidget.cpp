@@ -150,7 +150,10 @@ void GraphWidget::connectNodes()
     }
 
     GEdge* edge = new GEdge();
-    edge->showArrow(_bArrowLabel);
+    connect(edge,SIGNAL(longitudChanged(int,long)),this,SLOT(edgeLengthChanged(int,long)));
+
+    edge->showArrow(_bDirected);
+    edge->showLabel(_bArrowLabel);
     scene->addItem(edge);
 
     QLineF line;
